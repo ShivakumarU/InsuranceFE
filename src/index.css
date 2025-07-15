@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.btn-hover-fill {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.btn-hover-fill::before {
+  content: "";
+  @apply absolute left-0 top-0 h-full w-0 z-0 transition-all duration-300;
+}
+
+.btn-hover-fill:hover::before {
+  @apply w-full;
+}
+
+.btn-hover-fill > span {
+  @apply relative z-10;
+}
+
+
+
+.animated-dots {
+  background-image: radial-gradient(hsl(64, 92%, 45%) 1.6px, transparent 0);
+  background-size: 120px 120px;
+  animation: moveDots 30s ease-in-out infinite;
+}
+
+@keyframes moveDots {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 600px 400px;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.gradient-flex {
+  background: linear-gradient(to right, rgb(236, 63, 63), #2eaa09, rgb(1, 136, 113)); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
