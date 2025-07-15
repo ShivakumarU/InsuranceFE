@@ -94,7 +94,7 @@ const OtherDetails = ({ formData, setFormData }) => {
 
         {formData.insuredNameMatchInRC === 'not matching' && (
           <div className="md:col-span-2">
-            <label className="label">Reason for Name Mismatch</label>
+            <label className="label">Mismatch Evidence</label>
             <input
               type="text"
               className="input input-bordered w-full"
@@ -114,7 +114,7 @@ const OtherDetails = ({ formData, setFormData }) => {
             <option value="">Select</option>
             <option value="no pending challan">No Pending Challan</option>
             <option value="no suspects found">No Suspects Found</option>
-            <option value="old damages noted">Old Damages Noted</option>
+            <option value="old damages">Old Damages Noted</option>
           </select>
         </div>
 
@@ -143,7 +143,7 @@ const OtherDetails = ({ formData, setFormData }) => {
         )}
 
         <div>
-          <label className="label">Any Other Information?</label>
+          <label className="label">Additional findings ?</label>
           <select
             className="select select-bordered"
             value={formData.anyOtherInfo || ''}

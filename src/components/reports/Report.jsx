@@ -19,7 +19,8 @@ Font.register({
   ]
 });
 
-const logoURL = "http://localhost:5173/Letter Head logo and name.jpg"; 
+const logoURL = "http://localhost:5173/Letter Head logo and name.jpg";
+const stamp = '/Stamp and Sign copy.jpg'; 
 
 
 const styles = StyleSheet.create({
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
     border: '1pt solid black'
   },
   outerBorder: {
-    // border: '1pt solid black',
     padding: 15,
   },
   logo: {
@@ -324,14 +324,97 @@ const Report = ({ data }) => {
                               { data.driverVerified==="yes" &&
                                 (<Text style={{lineHeight:1.3, textAlign:'justify'}}>
                                     {`\u2022 We have verified the driver call data ${data.driverCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.driverCallData==="match" ?`, it matches with the version provided, and we did not find any suspects.` : `${data.driverCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.driverDLStatus==="not provided" ? `The driver did not provide ${data.driverGenderInDriver==="he"?"his":"her"} driving license for verification`: `We have enquired with driver DL and found that ${data.driverGenderInDriver} ${data.driverDLStatus}`}.`}
-                                    {`\n ${data.driverAddAnything==='yes' ? `\u2022 ${data.driverAdditionalComments}` :``} `}
+                                </Text>)
+                              }
+                              { data.driverVerified==="yes" && data.driverAddAnything==='yes' &&
+                                (<Text style={{lineHeight:1.3, textAlign:'justify'}}>
+                                    { `\u2022 ${data.driverAdditionalComments}`} 
                                 </Text>)
                               }
                             </>
                          )
                         }
+                        {data.anyOccupantInIV === "no" && (
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 During our verification, it was stated that no other person occupied the IV apart from the individuals mentioned above.`}
+                          </Text>
+                        )}
+
+                        {data.anyOccupantInIV === "yes" && data.anyOccupantVerified === "no" && (
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 During our verification, it was stated that total ${data.totalPersonsInInsuredStatement} persons were travelling including above mentioned individuals. But we did not verify any occupants due to ${data.occupantNotVerifiedReason}.`}
+                          </Text>
+                        )}
+                        {data.anyOccupantInIV === "yes" && data.anyOccupantVerified === "yes" && (
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                              {`\u2022 ${data.occupantFindings}`}
+                          </Text>
+                        )}
+                        {data.anyOccupantInIV === "yes" && data.occupantsAddAnything==="yes" && 
+                         (<Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 ${data.occupantsAdditionalComments}`}
+                         </Text>)
+                        }
+                        {
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 During the course of investigation, we observed ${data.overSeating==="no" ? `that there was no over-seating in the IV at the time of the accident.` : `that the IV exceeded its permitted seating capacity, and the evidence is supported by ${data.overSeatingEvidence}.`}`}
+                          </Text>
+                        }
+                        {data.policeCaseFiledOthers==="no" && (
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 Regarding this accident there is no police case filed in any police station.`}
+                          </Text>)
+                        }
+                        {(data.policeCaseFiledOthers==="yes" || data.policeCaseFiledOthers==="panchanama-only") && (
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 Regarding this accident, police filed ${data.policeCaseFiledOthers==="yes"? `F.I.R` : `panchanama only`} at ${data.policeStationNameOthers} and as per police records, IV driven by ${data.asPerPsDriverName} and accident date is ${data.asPerPsAccidentDate}. We have enclosed those records with this report.`}
+                          </Text>)
+                        }
+                        {
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 We verified the IV documents such as RC, RC Extract and Policy copy, and found ${data.insuredNameMatchInRC ==='matching' ? `no deviation in the insured name.` : `deviation in the insured name. The evidence is ${data.insuredNameMismatchReason}.`}`}
+                          </Text>                          
+                        }
+                        {
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 We verified TS E-Challan with reference to insured vehicle and noticed ${data.tsEChallan} and relevant evidence has been enclosed for your review`}
+                          </Text>                          
+                        }
+                        {
+                          <Text style={{ lineHeight: 1.3, textAlign: 'justify' }}>
+                            {`\u2022 As per their version, in the said accident ${data.thirdPartyVehicleInvolved==="no" ? `there is no TP vehicle involved.` : `TP vehicle involved and details are ${data.thirdPartyDetails}.`}`}
+                          </Text>                          
+                        }                    
+                                              
                 </View>
-          
+                {data.anyOtherInfo==="yes" && (
+                  <View style={{marginTop:15}}>
+                      <Text style={{fontWeight:'bold',  textDecoration:"underline", marginBottom:15}}>
+                        Additional Findings :
+                      </Text>
+                      <Text style={{lineHeight:1.3, textAlign:'justify'}}>
+                          {`\u2022 ${data.otherInfoDescription}`}
+                      </Text>
+                  </View> )
+                }               
+                <View style={{marginTop:15}}>
+                    <Text style={{fontWeight:'bold',  textDecoration:"underline", marginBottom:15, fontSize:14}}>
+                       Conclusion :
+                    </Text>
+                    <Text style={{lineHeight:1.3, textAlign:'justify', textIndent:40}}>
+                        {`Based on documents and evidences, ${data.conclusionOpinion ==="payable" ? `there is no suspicious information has noted. IV documents are in order and IV driving person has valid DL.` : `we found ${data.suspectsEvidenceReason}` }. Supporting evidence is enclosed. Hence, insurer can take appropriate decision as per terms and conditions of policy.` }
+                    </Text>
+                </View>
+                <Text style={{fontWeight:'bold',  textDecoration:"underline", marginTop:45, textAlign:'center'}}>
+                    {`Issued without Prejudice  
+                    Strictly for internal purpose only`}
+                </Text>
+                <View style={{textAlign:'center', marginTop: 30, alignItems:'flex-end', marginRight:20}}>
+                    <Text><Image src={stamp} style={{width:60, height:60}} /></Text>
+                    <Text style={{textAlign:'right', marginTop:10}}>
+                      Mahesh Kola{'\n'}Authorized Signatory
+                    </Text>
+                </View>
           </View>
 
         </View>
