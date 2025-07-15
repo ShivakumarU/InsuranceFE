@@ -531,6 +531,12 @@ const Report = ({ data }) => {
                       Mahesh Kola{'\n'}Authorized Signatory
                     </Text>
                 </View>
+                <View>
+                  <Text>Driver Visit Photos :</Text>
+                
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                
+                </View>
           </View>
 
         </View>
