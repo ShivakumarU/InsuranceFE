@@ -3,7 +3,7 @@ import LogoImage from '../assets/Logo-img.png'
 import LogoName from '../assets/Logo-Name.png'
 import { useNavigate } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({searchTerm, setSearchTerm }) => {
     const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "black");
 
     const handleToggle = () => {
@@ -29,7 +29,7 @@ const NavBar = () => {
                   <span>Create a New Case</span>
                 </button>                
                 <div className="form-control">
-                    <input type="text" placeholder="Search" className="input border-yellow-600 focus:border-gray-500 focus:outline-none focus:border-2 w-full max-w-xs" />
+                    <input type="text" placeholder="Search" className="input border-yellow-600 focus:border-gray-500 focus:outline-none focus:border-2 w-full max-w-xs" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value.toLowerCase())} />
                 </div>
                 
                 <label className="swap swap-rotate mx-2">

@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [cases, setCases] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -63,7 +65,7 @@ const Home = () => {
 return (
  
     <div>
-      <NavBar />
+      <NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="p-10 border-b mt-5">
         <h2 className="text-2xl font-bold mb-12 mt-5 gradient-flex">Insurance - All Pending Cases : {cases.length}</h2>
 
@@ -76,7 +78,19 @@ return (
           <div>Vehicle Type</div>
           <div>Close Proximity ( Days )</div>
         </div>
-        {cases.map((item, index) => {
+        {cases.filter((item) => {
+                const fields = [
+                  item.insuranceCompany,
+                  item.insuredName,
+                  item.claimNumber,
+                  item.ivNumber,
+                  item.vehicleType,
+                ];
+                return fields.some(field =>
+                  field?.toLowerCase().includes(searchTerm)
+                );
+              })
+              .map((item, index) => {
 
           const parseDDMMYYYY = (dateStr) => {
             if (!dateStr || typeof dateStr !== 'string') return null;
