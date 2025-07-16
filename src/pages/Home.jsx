@@ -77,7 +77,7 @@ return (
           <div>Close Proximity ( Days )</div>
         </div>
         {cases.map((item, index) => {
-          
+
           const parseDDMMYYYY = (dateStr) => {
             if (!dateStr || typeof dateStr !== 'string') return null;
 
@@ -120,7 +120,7 @@ return (
               <div>{item.claimNumber}</div>
               <div>{item.ivNumber}</div>
               <div>{item.vehicleType}</div>
-              <div className={`px-2 py-1 rounded ${closeProximity <= 30 ? "text-red-600 font-bold w-2/5" : ""}`}>
+              <div className={`px-2 py-1 rounded ${closeProximity <= 30 && closeProximity  !== null ? "text-red-600 font-bold w-2/5" : ""}`}>
                 {closeProximity  !== null ? `${closeProximity<=30?`${closeProximity} days`:`${closeProximity}`}` : "N/A"}
               </div>
               <div className='flex items-center justify-center'>
