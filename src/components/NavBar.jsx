@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import LogoImage from '../assets/Logo-img.png'
 import LogoName from '../assets/Logo-Name.png'
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const NavBar = () => {
     const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "black");
 
-    const handleToggle = (e) => {
+    const handleToggle = () => {
     const newTheme = theme === "acid" ? "black" : "acid";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
@@ -16,9 +16,9 @@ const NavBar = () => {
     const navigate = useNavigate();
 
   return (
-    <div className="navbar bg-base-100 my-2">
-        <div className="flex-1">
-            <a className="btn btn-ghost flex items-center gap-x-0">
+    <div className="navbar bg-base-100 py-5 shadow-[1px_1px_10px_rgba(0,0,0,0.2)] dark:shadow-slate-400">
+        <div className="flex-1 ">
+            <a className="btn btn-ghost flex items-center gap-x-0 ">
                 <img src={LogoImage} className="h-12 w-12" alt="LogoImage in navbar" />
                 <img src={LogoName} className="h-12 w-45" alt="LogoName in navbar" />
             </a>

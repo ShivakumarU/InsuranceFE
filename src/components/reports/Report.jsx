@@ -531,12 +531,40 @@ const Report = ({ data }) => {
                       Mahesh Kola{'\n'}Authorized Signatory
                     </Text>
                 </View>
-                <View>
-                  <Text>Driver Visit Photos :</Text>
-                
+                {/* <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
+                  <Text style={{textDecoration:'underline', marginBottom:20}}> Insured Visit Photos :</Text>
+                  <Text>
                     <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                  </Text>
                 </View>
+                <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
+                  <Text style={{textDecoration:'underline', marginBottom:20}}>Driver Visit Photos :</Text>
+                  <Text>
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                  </Text>
+                </View>
+                <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
+                  <Text style={{textDecoration:'underline', marginBottom:20}}>Spot Photos :</Text>
+                  <Text>
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                 </Text>
+                </View>
+                <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
+                  <Text style={{textDecoration:'underline', marginBottom:20}}>Garage Photos :</Text>
+                  <Text>
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
+                 </Text>
+                </View> */}
           </View>
 
         </View>

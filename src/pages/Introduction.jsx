@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronsRight, HeartHandshake } from 'lucide-react';
+import { HeartHandshake, MoveRight } from 'lucide-react';
 import img1 from '../assets/car-crashed.jpg';
 import img2 from '../assets/car-insurance.jpg';
 import img3 from '../assets/insuranceAgent-working-site-car.jpg';
@@ -27,14 +27,14 @@ const Introduction = () => {
 
   return (
   <div className="min-h-screen flex flex-col bg-base-800">  
-    <div className="flex items-center px-4 py-2">
+    <div className="flex items-center px-4 py-4 border-b shadow-[1px_1px_10px_rgba(0,0,0,0.2)]  shadow-gray mb-48">
       <img src={LogoImage} className="h-12 w-12" alt="LogoImage in navbar" />
       <img src={LogoName} className="h-14 w-45" alt="LogoName in navbar" />
     </div>
 
-    <div className="flex-1 flex items-center justify-center hero px-4 lg:px-24">
+    <div className="flex-1 flex items-start justify-center hero px-4 lg:px-24 mt-1">
       <div className="hero-content flex-col lg:flex-row items-start gap-10">
-        <div className="relative w-[490px] h-[390px] rounded-lg shadow-2xl overflow-hidden">
+        <div className="relative w-[490px] h-[399px] rounded-lg overflow-hidden shadow-[0px_1px_25px_rgba(0,0,0,0.2)] shadow-black">
           {images.map((img, index) => (
             <img
               key={index}
@@ -54,7 +54,7 @@ const Introduction = () => {
             </span>
           </h1>
           <p
-            className="py-5 text-base leading-relaxed text-yellow-500"
+            className="py-5 text-base leading-relaxed text-base-content "
             style={{ fontFamily: '"Libertinus Math", system-ui' }}
           >
             {/* At{" "}
@@ -69,12 +69,12 @@ const Introduction = () => {
 
           <button
             onClick={() => navigate('/login')}
-            className="mt-6 btn btn-outline btn-success btn-hover-fill before:bg-error hover:text-white w-40 group"
+            className="mt-6 btn btn-outline btn-hover-fill before:bg-black hover:text-white w-40 group shadow-black shadow-[0px_1px_10px_rgba(0,0,0,0.2)]"
           >
-            <span className="flex items-center">
-              <span className="mr-1">Get Started</span>
-              <ChevronsRight
-                size={22}
+            <span className="flex items-center justify-center">
+              <span className="mr-1 text-xs">Get Started</span>
+              <MoveRight
+                size={20}
                 className="transition-all duration-300 group-hover:translate-x-3 group-hover:scale-110"
               />
             </span>

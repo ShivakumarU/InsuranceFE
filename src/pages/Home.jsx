@@ -88,13 +88,13 @@ return (
           const policyStartDate = parseDDMMYYYY(item.policyStartDate);
 
           let closeProximity = "N/A";
-          let isRed = false;
+          // let isRed = false;
 
           if (accidentDate && policyStartDate) {
             const diffTime = accidentDate.getTime() - policyStartDate.getTime();
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             closeProximity = diffDays;
-            isRed = diffDays <= 30;
+            // isRed = diffDays <= 30;
           }
 
           return (
