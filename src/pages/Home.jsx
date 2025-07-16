@@ -60,8 +60,8 @@ const Home = () => {
     }
   };
 
-
 return (
+ 
     <div>
       <NavBar />
       <div className="p-10 border-b mt-5">
@@ -77,24 +77,29 @@ return (
           <div>Close Proximity ( Days )</div>
         </div>
         {cases.map((item, index) => {
+          
           const parseDDMMYYYY = (dateStr) => {
-            if (!dateStr) return null;
-            const [dd, mm, yyyy] = dateStr.split('/');
-            const date = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
+            if (!dateStr || typeof dateStr !== 'string') return null;
+
+            const parts = dateStr.trim().split('/');
+            if (parts.length !== 3) return null;
+
+            const [dd, mm, yyyy] = parts.map(part => parseInt(part, 10));
+            if (isNaN(dd) || isNaN(mm) || isNaN(yyyy)) return null;
+
+            const date = new Date(yyyy, mm - 1, dd); 
             return isNaN(date.getTime()) ? null : date;
           };
 
-          const accidentDate = parseDDMMYYYY(item.accidentDateTime);
+          const accidentDate = parseDDMMYYYY(item.accidentDate);
           const policyStartDate = parseDDMMYYYY(item.policyStartDate);
 
-          let closeProximity = "N/A";
-          // let isRed = false;
+          let closeProximity = null;
 
           if (accidentDate && policyStartDate) {
             const diffTime = accidentDate.getTime() - policyStartDate.getTime();
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             closeProximity = diffDays;
-            // isRed = diffDays <= 30;
           }
 
           return (
@@ -115,8 +120,8 @@ return (
               <div>{item.claimNumber}</div>
               <div>{item.ivNumber}</div>
               <div>{item.vehicleType}</div>
-              <div className={`px-2 py-1 rounded ${closeProximity <= 30 ? "bg-red-500 w-1/5" : ""}`}>
-                {closeProximity}
+              <div className={`px-2 py-1 rounded ${closeProximity <= 30 ? "text-red-600 font-bold w-2/5" : ""}`}>
+                {closeProximity  !== null ? `${closeProximity<=30?`${closeProximity} days`:`${closeProximity}`}` : "N/A"}
               </div>
               <div className='flex items-center justify-center'>
                 <Trash

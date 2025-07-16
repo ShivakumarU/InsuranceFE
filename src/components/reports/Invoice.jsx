@@ -168,6 +168,8 @@ const styles = StyleSheet.create({
 
 const logoURL = '/Letter Head logo and name.jpg';
 const stamp = '/Stamp and Sign copy.jpg';
+const today = new Date();
+const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
 const Invoice = ({ data }) => {
   const { insuranceCompany, refNumber, claimNumber, insuredName, invoiceAmount = 0 } = data;
@@ -208,7 +210,7 @@ const totalWords = numberToWords(Number(invoiceAmount || 0));
             <Text style={styles.heading}>TAX INVOICE</Text>
 
             <View style={styles.rightTextBlock}>
-              <Text>Date: {new Date().toLocaleDateString()}</Text>
+              <Text>Date: {formattedDate}</Text>
               <Text>Invoice Number: {refNumber}</Text>
               <Text>Claim Number: {claimNumber}</Text>
               <Text>Insured Name: {insuredName}</Text>

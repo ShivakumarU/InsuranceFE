@@ -13,7 +13,6 @@ const images = [ img1, img2, img3, img4, img5 ];
 
 const Introduction = () => {
   const [currentImage, setCurrentImage] = useState(0);
-  const [loginPage, setLoginPage] = useState(false);
 
   const navigate = useNavigate();
 

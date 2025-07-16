@@ -87,7 +87,7 @@ const MultiStepForm = () => {
 
   const saveFormDataToDB = async () => {
     try {
-      const dateFields = ['policyStartDate', 'accidentDateTime'];
+      const dateFields = ['policyStartDate', 'accidentDate'];
       for (let field of dateFields) {
         if (formData[field] && !isValidDateFormat(formData[field])) {
           toast.error(`"${field}" must be in DD/MM/YYYY format`);

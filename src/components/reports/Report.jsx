@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
   }
 });
 
+const today = new Date();
+const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
 const Report = ({ data }) => {
   const tableData = [
     { label: "Claim No", value: data.claimNumber },
@@ -105,7 +108,7 @@ const Report = ({ data }) => {
           <Image src={logoURL} style={styles.logo} />
           <View style={styles.headerRow}>
             <Text>Ref No : {data.refNumber}</Text>
-            <Text>Date : {new Date().toLocaleDateString()}</Text>
+            <Text>Date : {formattedDate}</Text>
           </View>
 
           <View style={{ marginTop: 15, marginBottom: 1 }}>
