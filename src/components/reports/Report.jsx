@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 });
 
 const today = new Date();
-const IMAGE_API_URL = "https://maheshkola.onrender.com/";
+const IMAGE_API_URL = "https://maheshkola.onrender.com";
 const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
 const Report = ({ data }) => {
