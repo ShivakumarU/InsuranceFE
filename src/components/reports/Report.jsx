@@ -83,10 +83,28 @@ const styles = StyleSheet.create({
     textAlign:'justify',
     flex:1, 
     marginLeft:5
-  }
+  },
+    containerOne: {
+    width: '100%',
+    height: 300,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    // border: '2px solid #d97706',
+    justifyContent:'space-between',  
+    alignContent:'space-between'
+  },
+  // imageOne: {
+  //   maxWidth: '100%',
+  //   maxHeight: '100%',
+  //   // objectFit: 'contain',
+  //   // width: 240, // Adjust as per layout
+  //   // height: 240,
+  //   // margin: 5,
+  // },
 });
 
 const today = new Date();
+const IMAGE_API_URL = "http://localhost:5001";
 const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
 
 const Report = ({ data }) => {
@@ -100,6 +118,11 @@ const Report = ({ data }) => {
     { label: "Loss Location", value: data.lossLocation },
     { label: "Remarks", value: data.causeOfLoss },
   ];
+
+
+  console.log("insuredPhotosUpload:", data.insuredPhotosUpload);
+console.log("Data: ", data);
+console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
 
   return (
     <Document>
@@ -534,40 +557,74 @@ const Report = ({ data }) => {
                       Mahesh Kola{'\n'}Authorized Signatory
                     </Text>
                 </View>
-                {/* <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
-                  <Text style={{textDecoration:'underline', marginBottom:20}}> Insured Visit Photos :</Text>
-                  <Text>
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                  </Text>
+                { 
+                <View style={{ flexDirection: "column", textAlign:'left', fontSize: 15, marginTop: 20 }}>
+                  <Text style={{ textDecoration: 'underline', marginBottom: 10, marginTop:50 }}>Insured Visit Photos :</Text>
+
+                  <View style={styles.containerOne}>
+                    {data?.insuredPhotosUpload?.map((url, index) => (
+                      <Image
+                        key={index}
+                        src={`${IMAGE_API_URL}${url}`}
+                        style={{
+                          width:  '49%',
+                          height: 200,
+                          resizeMode: 'contain',
+                        }}
+                      />
+                    ))}
+                  </View>
+
+                  <Text style={{ textDecoration: 'underline', marginBottom: 10, marginTop:20 }}>Driver Visit Photos :</Text>
+                  <View style={styles.containerOne}>
+                    {data?.driverPhotosUpload?.map((url, index) => (
+                      <Image
+                        key={index}
+                        src={`${IMAGE_API_URL}${url}`}
+                        style={{
+                          width:  '49%',
+                          height: 200,
+                          resizeMode: 'contain',
+                        }}
+                      />
+                    ))}
+                  </View>
+<Text style={{ textDecoration: 'underline', marginBottom: 25, marginTop: 20 }}>
+  Spot Visit Photos :
+</Text>
+<View style={[styles.containerOne, { height: 600 }]}>
+  {data?.spotPhotosUpload?.slice(0, 4).map((url, index) => (
+    <Image
+      key={index}
+      src={`${IMAGE_API_URL}${url}`}
+      style={{
+                          width:  '49%',
+                          height: 200,
+                          resizeMode: 'contain',
+                        }}
+    />
+  ))}
+</View>
+
+<Text style={{ textDecoration: 'underline', marginBottom: 25, marginTop: 20 }}>
+  Garage Visit Photos :
+</Text>
+<View style={[styles.containerOne, { height: 900 }]}>
+  {data?.garagePhotosUpload?.slice(0, 6).map((url, index) => (
+    <Image
+      key={index}
+      src={`${IMAGE_API_URL}${url}`}
+      style={{
+                          width:  '49%',
+                          height: 200,
+                          resizeMode: 'contain',
+                        }}
+    />
+  ))}
+</View>
+
                 </View>
-                <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
-                  <Text style={{textDecoration:'underline', marginBottom:20}}>Driver Visit Photos :</Text>
-                  <Text>
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                  </Text>
-                </View>
-                <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
-                  <Text style={{textDecoration:'underline', marginBottom:20}}>Spot Photos :</Text>
-                  <Text>
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                 </Text>
-                </View>
-                <View style={{flexDirection:"column", textAlign:'center', fontSize:15, marginTop:20}}> 
-                  <Text style={{textDecoration:'underline', marginBottom:20}}>Garage Photos :</Text>
-                  <Text>
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/d4d0594e-c39a-4ddc-a7cb-42c597aa547a.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt="" />
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                    <Image src="http://localhost:5001/uploads/7129a975-9135-4ab8-b365-a878eaf79e76.jpg" style={{width:200,height:100,objectFit: 'cover'}} alt=""/>
-                 </Text>
-                </View> */}
+                }
           </View>
 
         </View>

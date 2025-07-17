@@ -26,7 +26,7 @@ const Introduction = () => {
 
   return (
   <div className="min-h-screen flex flex-col bg-base-800">  
-    <div className="flex items-center px-4 py-4 border-b shadow-[1px_1px_10px_rgba(0,0,0,0.2)]  shadow-gray mb-48">
+    <div className="flex items-center px-4 py-4 border-b shadow-[1px_1px_10px_rgba(0,0,0,0.2)]  shadow-gray mb-44">
       <img src={LogoImage} className="h-12 w-12" alt="LogoImage in navbar" />
       <img src={LogoName} className="h-14 w-45" alt="LogoName in navbar" />
     </div>

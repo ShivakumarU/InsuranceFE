@@ -177,9 +177,18 @@ const MultiStepForm = () => {
             ← Back to Form
           </button>
         </div>
-        <PDFViewer width="100%" height="100%">
-          <Report data={formData} />
-        </PDFViewer>
+        {formData ? (
+          <PDFViewer width="100%" height="100%">
+            <Report data={formData} />
+          </PDFViewer>
+        ) : (
+          <div className="p-6 text-center">
+            <button className="btn">
+              <span className="loading loading-spinner"></span>
+              loading
+            </button>
+          </div>
+        )}
       </div>
     )
   }

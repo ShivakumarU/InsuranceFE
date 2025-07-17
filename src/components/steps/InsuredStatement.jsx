@@ -69,6 +69,7 @@ const InsuredStatement = ({ formData, setFormData }) => {
                         ...prev,
                         insuredPhotosUpload: uploadedUrls,
                       }));
+                      console.log("Uploaded URLs:", uploadedUrls);
                     }}               
                />
             </div>
