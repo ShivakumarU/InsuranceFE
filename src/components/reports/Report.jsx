@@ -161,12 +161,13 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
           <View>
                 <Text style={{ marginTop: 9 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                   {`${data.insuredVerified === "yes" ?      
-                  `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation} is having a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with an accident on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, at ${data.accidentPlaceInInsuredStatement} ${data.accidentMannerInInsuredStatement}. At the time of accident, ${data.travellingPersonRelationInInsuredStatement} is travelling ${
+                  `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation} is having a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, at ${data.accidentPlaceInInsuredStatement} ${data.accidentMannerInInsuredStatement}. At the time of accident, ${data.travellingPersonRelationInInsuredStatement} is travelling ${
                     data.totalPersonsInInsuredStatement === 1
                       ? "alone"
                       : data.totalPersonsInInsuredStatement === 2
                       ? "along with another person"
-                      : `along with ${data.totalPersonsInInsuredStatement - 1} other persons`
+                      : data.totalPersonsInInsuredStatement > 2
+                      ? `along with ${data.totalPersonsInInsuredStatement - 1} other persons`:``
                   }. In this accident, IV damaged ${
                   data.anyInjuryInInsured?.toLowerCase() === "injured"
                     ? `and ${data.injuredNameRelationInInsured} is injured.`
@@ -206,8 +207,9 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                       :`Driver - ${data.driverNameInDriver}, Occ: ${data.driverOccupation}, is driving insured vehicle with Reg.No: ${data.carNoInDriver} from ${data.travelFromInDriver} to ${data.travelToInDriver} ${data.ivTotalPersonsInDriver === 1
                       ? "alone"
                       : data.ivTotalPersonsInDriver === 2
-                      ? "along with another person"
-                      : `along with ${data.ivTotalPersonsInDriver - 1} other persons and met with accident at ${data.accidentPlaceInDriver} on ${data.accidentDateInDriver} at ${data.accidentTimeInDriver} hrs due to ${data.accidentMannerInDriver}. As a result IV damaged, ${
+                      ? "along with another person" 
+                      : data.ivTotalPersonsInDriver >2 
+                      ? `along with ${data.ivTotalPersonsInDriver - 1} other persons`:""} and met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInDriver} on ${data.accidentDateInDriver} at ${data.accidentTimeInDriver} hrs due to ${data.accidentMannerInDriver}. As a result IV damaged, ${
                       data.whoIsInjuredInDriver?.toLowerCase() === "injured"
                         ? `and ${data.injuredNameRelationInDriver} is injured.`
                         : data.whoIsInjuredInDriver?.toLowerCase() === "no one injured"
@@ -228,7 +230,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                       : data.statementGivenInDriver === "no"
                       ? "orally only"
                       : ""
-                  }.`}`}`}
+                  }.`}`}`
                     </Text>
                   </View>
                 }
@@ -260,7 +262,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                             {`\u2022`}
                           </Text>
                           <Text style={styles.bulletContent}>
-                            {`As per claim intimation, the accident was occured on ${data.accidentDate} at ${data.accidentTime} hrs and at the time of accident IV driver is ${data.ivDriver}.`}
+                            {`As per claim intimation, the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} was occured on ${data.accidentDate} at ${data.accidentTime} hrs and at the time of accident IV driver is ${data.ivDriver}.`}
                          </Text>
                        </View>
                        <View style={styles.bulletItem}>
@@ -268,7 +270,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                             {`\u2022`}
                           </Text>
                           <Text style={styles.bulletContent}>
-                            {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the insured about the accident due to ${data.insuredNotVerifiedReason}.` : `verified with the insured about the accident. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredGender} is not in IV at the time of loss.`}`} `}
+                            {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the insured about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the insured about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredGender} is not in IV at the time of loss.`}`} `}
                          </Text>
                        </View>
                         {data.insuredVerified==="yes" && (
@@ -335,7 +337,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                                     {`\u2022`}
                                   </Text>
                                   <Text style={styles.bulletContent}>
-                                    {`We have verified the ${data.insuredType}'s call data ${data.insuredCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.insuredCallData==="match" ?`, it matches with the version provided, and we did not find any suspects.` : `${data.insuredCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.insuredDLStatus==="not provided" ? `The ${data.insuredType} did not provide ${data.insuredGender==="he"?"his":"her"} driving license for verification`: `We have enquired with ${data.insuredType} DL and found that ${data.insuredGender} ${data.insuredDLStatus}`}.`}
+                                    {`We have verified the ${data.insuredType}'s call data ${data.insuredCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.insuredCallData==="match" ?`, it matches with the version provided, and we did not find any suspects.` : `${data.insuredCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.insuredDLStatus==="not provided" ? `The ${data.insuredType} did not provide ${data.insuredGender==="he"?"his":"her"} driving license for verification`: `We enquired about the ${data.insuredType} DL and found that ${data.insuredGender} ${data.insuredDLStatus}`}.`}
                                 </Text>
                           </View>
                           )

@@ -67,6 +67,7 @@ const DriverStatement = ({ formData, setFormData }) => {
                         const url = await uploadFile(file);
                         uploadedUrls.push(url);
                       }
+                      console.log(uploadedUrls)
 
                       setFormData((prev) => ({
                         ...prev,

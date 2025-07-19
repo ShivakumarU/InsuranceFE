@@ -146,6 +146,17 @@ const InsuredDetails = ({formData, setFormData}) =>  {
         </div>
 
         <div>
+          <label className="label">Accident Type</label>
+          <select
+            className="select select-bordered w-1/3"
+            value={formData.accidentType || ''}
+            onChange={(e) => setFormData({ ...formData, accidentType: e.target.value })}>
+            <option value="accident">Accident</option>
+            <option value="fire accident">Fire Accident</option>
+          </select>
+        </div>
+
+        <div>
           <label className="label">Invoice Amount</label>
           <input
             type="number"
