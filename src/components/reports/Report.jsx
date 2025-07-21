@@ -259,7 +259,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                     </Text>
                     <Text style={{marginTop:10,lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                        {`During the course of investigation, ${data.garageVisited === 'no' ? `we are unable to inspect the vehicle due to ${data.garageNotVisitedReason}.` : `we inspected IV and we noticed IV damages are ${data.damagesMatching} with the version of accident. IV is ${data.multipleDamages === 'yes' ? `having multiple damages.`: `not having any multiple damages.`} In our verification, ${
-                        data.bloodMarks === 'yes' ? `we have noticed blood marks in vehicle at ${data.bloodMarksDescription}.` : `we didn't noticed any blood marks.`
+                        data.bloodMarks === 'yes' ? `we have noticed blood marks in vehicle at ${data.bloodMarksDescription}.` : `No blood marks were noticed in the IV.`
                        } ${data.garagePhotosTaken === 'yes' ? `For the same, we have enclosed the vehicle photos with this report.` : `However, vehicle photos are not enclosed with thi report due to ${data.garagePhotosNotTakenReason}.`}`}`}
                     </Text>
                 </View>
