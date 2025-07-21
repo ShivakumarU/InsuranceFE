@@ -185,6 +185,18 @@ const InsuredDetails = ({formData, setFormData}) =>  {
             onChange={(e) => setFormData({ ...formData, causeOfLoss: e.target.value })}
           />
         </div>
+        <div>
+          <label className="label">Vehicle Condition</label>
+          <select
+            className="select select-bordered w-1/3"
+            value={formData.vehicleCondition || ''}
+            onChange={(e) => setFormData({ ...formData, vehicleCondition: e.target.value })}>
+            <option value="moving">Moving</option>
+            <option value="parked">Parked</option>
+            <option value="operating">Operating</option>
+          </select>
+        </div>
+
       </div>
     </div>
   );

@@ -143,30 +143,6 @@ const OtherDetails = ({ formData, setFormData }) => {
         )}
 
         <div>
-          <label className="label">Additional findings ?</label>
-          <select
-            className="select select-bordered"
-            value={formData.anyOtherInfo || ''}
-            onChange={(e) => handleChange('anyOtherInfo', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-
-        {formData.anyOtherInfo === 'yes' && (
-          <div className="md:col-span-2">
-            <label className="label">Additional Information</label>
-            <textarea
-              className="textarea textarea-bordered w-full"
-              value={formData.otherInfoDescription || ''}
-              onChange={(e) => handleChange('otherInfoDescription', e.target.value)}
-            />
-          </div>
-        )}
-
-        <div>
           <label className="label">Fastag</label>
           <select
             className="select select-bordered"
@@ -190,6 +166,42 @@ const OtherDetails = ({ formData, setFormData }) => {
             <option value="no">No</option>
           </select>
         </div>
+        <div>
+          <label className="label">Drunk & Drive</label>
+          <select
+            className="select select-bordered"
+            value={formData.drunkAndDrive || ''}
+            onChange={(e) => handleChange('drunkAndDrive', e.target.value)}
+          >
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="label">Additional findings ?</label>
+          <select
+            className="select select-bordered"
+            value={formData.anyOtherInfo || ''}
+            onChange={(e) => handleChange('anyOtherInfo', e.target.value)}
+          >
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        {formData.anyOtherInfo === 'yes' && (
+          <div className="md:col-span-2">
+            <label className="label">Additional Information</label>
+            <textarea
+              className="textarea textarea-bordered w-full"
+              value={formData.otherInfoDescription || ''}
+              onChange={(e) => handleChange('otherInfoDescription', e.target.value)}
+            />
+          </div>
+        )}
       </div>
 
       
