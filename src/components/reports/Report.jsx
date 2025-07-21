@@ -539,7 +539,33 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                           </Text>   
                         </View>                       
                         }                    
-                                              
+                        {<View style={styles.bulletItem}>
+                          <Text style={styles.bulletSymbol}>
+                            {`\u2022`}
+                          </Text>
+                          <Text style={styles.bulletContent}>
+                            {`${data.breakInPolicy==='yes'? `During the course of the investigation, we observed a break in the policy. The details have been enclosed with this report.` : `There is no break observed between the IV’s previous and current policies. Copies of both policies are enclosed with this report.`}`}
+                          </Text>   
+                        </View>                       
+                        } 
+                        {<View style={styles.bulletItem}>
+                          <Text style={styles.bulletSymbol}>
+                            {`\u2022`}
+                          </Text>
+                          <Text style={styles.bulletContent}>
+                            {`${data.drunkAndDrive=== "yes"? `During our verification, it was revealed that the IV was driving under the influence of alcohol at the time of the accident. Supporting evidence is enclosed with this report.` : `At the time of the accident, no suspicious information was noted regarding the IV being under the influence of alcohol.`}`}
+                          </Text>   
+                        </View>                       
+                        } 
+                        {(data.feildFastag!=="not applicable") && (<View style={styles.bulletItem}>
+                          <Text style={styles.bulletSymbol}>
+                            {`\u2022`}
+                          </Text>
+                          <Text style={styles.bulletContent}>
+                            {`We verified the IV's FASTag transactions${data.feildFastag==="no suspects" ? `, no suspicious findings were observed. The statement is enclosed with this report.` : `, a few suspicious activities were noted. The corresponding transaction details are enclosed with this report.` }`}
+                          </Text>   
+                        </View>)                       
+                        }                                                                                               
                 </View>
                 {data.anyOtherInfo==="yes" && (
                   <View style={{marginTop:15}}>
