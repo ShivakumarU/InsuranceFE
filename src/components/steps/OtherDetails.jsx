@@ -149,7 +149,7 @@ const OtherDetails = ({ formData, setFormData }) => {
             value={formData.feildFastag || ''}
             onChange={(e) => handleChange('feildFastag', e.target.value)}
           >
-            <option value="">Select</option>
+            <option value="not applicable">Not Applicable</option>
             <option value="suspects">Suspects</option>
             <option value="no suspects">No Suspects</option>
           </select>
