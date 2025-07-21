@@ -165,7 +165,34 @@ const OtherDetails = ({ formData, setFormData }) => {
             />
           </div>
         )}
+
+        <div>
+          <label className="label">Fastag</label>
+          <select
+            className="select select-bordered"
+            value={formData.feildFastag || ''}
+            onChange={(e) => handleChange('feildFastag', e.target.value)}
+          >
+            <option value="">Select</option>
+            <option value="suspects">Suspects</option>
+            <option value="no suspects">No Suspects</option>
+          </select>
+        </div>
+        <div>
+          <label className="label">Break in policy ?</label>
+          <select
+            className="select select-bordered"
+            value={formData.breakInPolicy || ''}
+            onChange={(e) => handleChange('breakInPolicy', e.target.value)}
+          >
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
       </div>
+
+      
 
       <div className="mt-10 border-t pt-6">
         <h2 className="text-xl font-semibold mb-4 gradient-flex">Conclusion</h2>

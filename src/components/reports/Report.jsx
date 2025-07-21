@@ -556,7 +556,15 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                        Conclusion :
                     </Text>
                     <Text style={{lineHeight:1.3, textAlign:'justify', textIndent:40}}>
-                        {`Based on documents and evidences, ${data.conclusionOpinion ==="payable" ? `there is no suspicious information has noted. IV documents are in order and IV driving person has valid DL.` : `we found ${data.suspectsEvidenceReason}` }. Supporting evidence is enclosed. Hence, insurer can take appropriate decision as per terms and conditions of policy.` }
+                      {data.withdrawOfClaim === "yes" ? (
+                        `Based on documents and evidence, the ${data.insuredType} has withdrawn the claim. Hence, the insurer can take an appropriate decision as per the terms and conditions of the policy. Supporting evidence is enclosed.`
+                      ) : (
+                        `Based on documents and evidence, ${
+                          data.conclusionOpinion === "payable"
+                            ? "no suspicious information has been noted. IV documents are in order, and the IV driving person has a valid DL."
+                            : `we found ${data.suspectsEvidenceReason}.`
+                        } Supporting evidence is enclosed. Hence, the insurer can take an appropriate decision as per the terms and conditions of the policy.`
+                      )}
                     </Text>
                 </View>
                 <Text style={{fontWeight:'bold',  textDecoration:"underline", marginTop:45, textAlign:'center'}}>

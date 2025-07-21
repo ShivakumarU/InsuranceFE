@@ -319,6 +319,17 @@ const InsuredStatement = ({ formData, setFormData }) => {
                 <option value="no">No</option>
               </select>
             </div>
+            <div>
+              <label className="label">Withdraw of Claim ?</label>
+              <select
+                className="select select-bordered"
+                value={formData.withdrawOfClaim || ''}
+                onChange={(e) => handleChange('withdrawOfClaim',  e.target.value)}
+              >
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
           </>
         )}
       </div>
