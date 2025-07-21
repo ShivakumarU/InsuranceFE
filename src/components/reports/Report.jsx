@@ -86,21 +86,31 @@ const styles = StyleSheet.create({
   },
     containerOne: {
     width: '100%',
-    height: 300,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // border: '2px solid #d97706',
-    justifyContent:'space-between',  
-    alignContent:'space-between'
+    justifyContent: 'space-between',
+    alignContent: 'flex-start',
+    marginTop: 20,
+    marginBottom: 20,
   },
-  // imageOne: {
-  //   maxWidth: '100%',
-  //   maxHeight: '100%',
-  //   // objectFit: 'contain',
-  //   // width: 240, // Adjust as per layout
-  //   // height: 240,
-  //   // margin: 5,
-  // },
+    sectionTitle: {
+    textDecoration: 'underline',
+    marginBottom: 10,
+    marginTop: 20,
+    fontSize: 14
+  },
+    photoBox: {
+    width: '49%',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+    image: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'contain',
+  }
 });
 
 const today = new Date();
@@ -560,73 +570,57 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                     </Text>
                 </View>
                 { 
-                <View style={{ flexDirection: "column", textAlign:'left', fontSize: 15, marginTop: 20 }}>
-                  <Text style={{ textDecoration: 'underline', marginBottom: 10, marginTop:50 }}>Insured Visit Photos :</Text>
-
-                  <View style={styles.containerOne}>
-                    {data?.insuredPhotosUpload?.map((url, index) => (
-                      <Image
-                        key={index}
-                        src={`${IMAGE_API_URL}${url}`}
-                        style={{
-                          width:  '49%',
-                          height: 200,
-                          resizeMode: 'contain',
-                        }}
-                      />
-                    ))}
-                  </View>
-
-                  <Text style={{ textDecoration: 'underline', marginBottom: 10, marginTop:20 }}>Driver Visit Photos :</Text>
-                  <View style={styles.containerOne}>
-                    {data?.driverPhotosUpload?.map((url, index) => (
-                      <Image
-                        key={index}
-                        src={`${IMAGE_API_URL}${url}`}
-                        style={{
-                          width:  '49%',
-                          height: 200,
-                          resizeMode: 'contain',
-                        }}
-                      />
-                    ))}
-                  </View>
-<Text style={{ textDecoration: 'underline', marginBottom: 25, marginTop: 20 }}>
-  Spot Visit Photos :
-</Text>
-<View style={[styles.containerOne, { height: 600 }]}>
-  {data?.spotPhotosUpload?.slice(0, 4).map((url, index) => (
-    <Image
-      key={index}
-      src={`${IMAGE_API_URL}${url}`}
-      style={{
-                          width:  '49%',
-                          height: 200,
-                          resizeMode: 'contain',
-                        }}
-    />
-  ))}
-</View>
-
-<Text style={{ textDecoration: 'underline', marginBottom: 25, marginTop: 20 }}>
-  Garage Visit Photos :
-</Text>
-<View style={[styles.containerOne, { height: 900 }]}>
-  {data?.garagePhotosUpload?.slice(0, 6).map((url, index) => (
-    <Image
-      key={index}
-      src={`${IMAGE_API_URL}${url}`}
-      style={{
-                          width:  '49%',
-                          height: 200,
-                          resizeMode: 'contain',
-                        }}
-    />
-  ))}
-</View>
-
+                <View style={{ flexDirection: 'column', textAlign: 'left', fontSize: 15, marginTop: 20 }}>
+                  {data?.insuredPhotosUpload?.length > 0 && (
+                    <>
+                      <Text style={[styles.sectionTitle, { marginTop: 50 }]}>Insured Visit Photos :</Text>
+                      <View style={[styles.containerOne, { height: 200 }]}>
+                        {data.insuredPhotosUpload.slice(0, 2).map((url, index) => (
+                          <View key={index} style={styles.photoBox}>
+                            <Image src={`${IMAGE_API_URL}${url}`} style={styles.image} />
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
+                  {data?.driverPhotosUpload?.length > 0 && (
+                    <>
+                      <Text style={styles.sectionTitle}>Driver Visit Photos :</Text>
+                      <View style={[styles.containerOne, { height: 200 }]}>
+                        {data.driverPhotosUpload.slice(0, 2).map((url, index) => (
+                          <View key={index} style={styles.photoBox}>
+                            <Image src={`${IMAGE_API_URL}${url}`} style={styles.image} />
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
+                  {data?.spotPhotosUpload?.length > 0 && (
+                    <>
+                      <Text style={styles.sectionTitle}>Spot Visit Photos :</Text>
+                      <View style={[styles.containerOne]}>
+                        {data.spotPhotosUpload.slice(0, 4).map((url, index) => (
+                          <View key={index} style={styles.photoBox}>
+                            <Image src={`${IMAGE_API_URL}${url}`} style={styles.image} />
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
+                  {data?.garagePhotosUpload?.length > 0 && (
+                    <>
+                      <Text style={styles.sectionTitle}>Garage Visit Photos :</Text>
+                      <View style={[styles.containerOne]}>
+                        {data.garagePhotosUpload.slice(0, 6).map((url, index) => (
+                          <View key={index} style={styles.photoBox}>
+                            <Image src={`${IMAGE_API_URL}${url}`} style={styles.image} />
+                          </View>
+                        ))}
+                      </View>
+                    </>
+                  )}
                 </View>
-                }
+              }
           </View>
 
         </View>
