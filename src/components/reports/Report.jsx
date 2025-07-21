@@ -553,7 +553,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                             {`\u2022`}
                           </Text>
                           <Text style={styles.bulletContent}>
-                            {`${data.drunkAndDrive=== "yes"? `During our verification, it was revealed that the IV was driving under the influence of alcohol at the time of the accident. Supporting evidence is enclosed with this report.` : `At the time of the accident, no suspicious information was noted regarding the IV being under the influence of alcohol.`}`}
+                            {`${data.drunkAndDrive=== "yes"? `During our verification, it was revealed that the IV was driving under the influence of alcohol at the time of the accident. Supporting evidence is enclosed with this report.` : `At the time of the accident, no indication was noted of the vehicle being driven under the influence of alcohol.`}`}
                           </Text>   
                         </View>                       
                         } 
