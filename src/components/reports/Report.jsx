@@ -272,7 +272,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                             {`\u2022`}
                           </Text>
                           <Text style={styles.bulletContent}>
-                            {`As per claim intimation, the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} was occured on ${data.accidentDate} at ${data.accidentTime} hrs and at the time of accident IV driver is ${data.ivDriver}.`}
+                            {`As per claim intimation, the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} was occurred on ${data.accidentDate} at ${data.accidentTime} hrs and at the time of accident IV driver is ${data.ivDriver}.`}
                          </Text>
                        </View>
                        <View style={styles.bulletItem}>
@@ -280,7 +280,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                             {`\u2022`}
                           </Text>
                           <Text style={styles.bulletContent}>
-                            {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the insured about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the insured about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredGender} is not in IV at the time of loss.`}`} `}
+                            {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredGender} is not in IV at the time of loss.`}`} `}
                          </Text>
                        </View>
                         {data.insuredVerified==="yes" && (
@@ -295,7 +295,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                                 ? `The insured did not cooperate when asked to check ${data.insuredGender === 'she' ? 'her' : 'his'} mobile gallery.`
                                 : `Then, we verified ${data.insuredGender === 'she' ? 'her' : 'his'} mobile gallery and ${
                                     data.insuredAccidentPhotosInMobile === 'available'
-                                      ? `found accident-related photos. These photos were captured ${data.insuredPhotosDateInfo} ${data.insuredPhotosSource === 'other person sent in whatsapp' ? `and were shared by another person [ ${data.insuredPhotosSenderName}-${data.insuredPhotosSenderNumber} ] through Whatsapp.` : `, and were found in ${data.insuredPhotosSource}.`}`
+                                      ? `found accident-related photos. These photos were captured ${data.insuredPhotosDateInfo} ${data.insuredPhotosSource === 'other person sent in whatsapp' ? `and were shared by another person [ ${data.insuredPhotosSenderName}-${data.insuredPhotosSenderNumber} ] through Whatsapp.` : `, and were found in ${data.insuredGender==="he"?"his":"her"} ${data.insuredPhotosSource}.`}`
                                       : 'did not find any accident-related photos in the gallery.'
                                       }`}` 
                               : data.insuredGoogleTimeline==="not co-relating" ? `and found ${data.insuredGender==="she" ? "her":"his"} timeline is not co-relating with ${data.insuredGender==="she" ? "her":"his"} version. We ${data.insuredTimelinePhotosAttached==='yes'?`attached the timeline photos with this report.`:`have not attached the timeline photos with this report because ${data.insuredGender} refused to share them, citing privacy concerns.`} ${
