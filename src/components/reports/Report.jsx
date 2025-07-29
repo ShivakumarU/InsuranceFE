@@ -196,7 +196,7 @@ if (accidentDate && policyStartDate) {
           (<View>
                   <Text style={{ marginTop: 19 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                     {`${data.insuredVerified === "yes" ?      
-                    `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation} is having a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, at ${data.accidentPlaceInInsuredStatement} ${data.accidentMannerInInsuredStatement}. At the time of accident, ${data.travellingPersonRelationInInsuredStatement} is travelling ${
+                    `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation} is having a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.vehicleCondition==='moving'? `while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}`:`${data.vehicleCondition==='parked'?`when IV is in parked condition`:`${data.vehicleCondition===`operating`?`while ${data.travellingPersonRelationInInsuredStatement} operating IV`:``}`}`}, due to ${data.accidentMannerInInsuredStatement}. At the time of accident, ${data.travellingPersonRelationInInsuredStatement} is travelling ${
                       data.totalPersonsInInsuredStatement === 1
                         ? "alone"
                         : data.totalPersonsInInsuredStatement === 2
@@ -305,7 +305,7 @@ if (accidentDate && policyStartDate) {
                               {`\u2022`}
                             </Text>
                             <Text style={styles.bulletContent}>
-                              {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredGender} is not in IV at the time of loss.`}`} `}
+                              {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredType} is not in IV at the time of loss.`}`} `}
                           </Text>
                         </View>
                           {data.insuredVerified==="yes" && (
@@ -362,7 +362,7 @@ if (accidentDate && policyStartDate) {
                                     {`\u2022`}
                                   </Text>
                                   <Text style={styles.bulletContent}>
-                                      {`${data.insuredInVehicle==='no' ? `` : `In the said accident, ${data.insuredType} ${data.insuredInjured==='no' ? `was not injured.` : `was injured and those injuries are ${data.insuredInjuriesCorelating==="no" ? `not co-relating with IV accident` : `co-relating with IV accident`} ${data.insuredHospitalized ==='no' ? `, and ${data.insuredGender} stated that ${data.insuredGender} was not treated in any hospital.` : `and ${data.insuredGender} was treated at ${data.insuredHospitalName}, ${data.insuredMedicalRecords==="not available"? `but ${data.insuredGender} was not having any medical records.`: `and ${data.insuredGender} also submitted mediacl records, we enclosed the same for your reference.`}`}`}`}`}
+                                      {`${data.insuredInVehicle==='no' ? `` : `In the said accident, ${data.insuredType} ${data.insuredInjured==='no' ? `was not injured.` : `was injured and those injuries are ${data.insuredInjuriesCorelating==="no" ? `not co-relating with IV accident` : `co-relating with IV accident`} ${data.insuredHospitalized ==='no' ? `, and ${data.insuredGender} stated that ${data.insuredGender} was not treated in any hospital.` : `and ${data.insuredGender} was treated at ${data.insuredHospitalName}, ${data.insuredMedicalRecords==="not available"? `but ${data.insuredGender} was not having any medical records.`: `and ${data.insuredGender} also submitted medical records, we enclosed the same for your reference.`}`}`}`}`}
                                   </Text>
                             </View>)
                           }
@@ -372,7 +372,7 @@ if (accidentDate && policyStartDate) {
                                       {`\u2022`}
                                     </Text>
                                     <Text style={styles.bulletContent}>
-                                      {`We have verified the ${data.insuredType}'s call data ${data.insuredCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.insuredCallData==="match" ?`, it matches with the version provided, and we did not find any suspects.` : `${data.insuredCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.insuredDLStatus==="not provided" ? `The ${data.insuredType} did not provide ${data.insuredGender==="he"?"his":"her"} driving license for verification`: `We enquired about the ${data.insuredType} DL and found that ${data.insuredGender} ${data.insuredDLStatus}`}.`}
+                                      {`We have verified the ${data.insuredType}'s call data ${data.insuredCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.insuredCallData==="match" ?`, it matches with the version provided by ${data.insuredGender==='he'? `him`: `her`}, and we did not find any suspects.` : `${data.insuredCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.insuredDLStatus==="not provided" ? `The ${data.insuredType} did not provide ${data.insuredGender==="he"?"his":"her"} driving license for verification`: `We enquired about the ${data.insuredType} DL and found that ${data.insuredGender} ${data.insuredDLStatus}`}.`}
                                   </Text>
                             </View>
                             )
@@ -449,7 +449,7 @@ if (accidentDate && policyStartDate) {
                                       {`\u2022`}
                                     </Text>
                                     <Text style={styles.bulletContent}>
-                                          {`We have verified the driver call data ${data.driverCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.driverCallData==="match" ?`, it matches with the version provided, and we did not find any suspects.` : `${data.driverCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.driverDLStatus==="not provided" ? `The driver did not provide ${data.driverGenderInDriver==="he"?"his":"her"} driving license for verification`: `We have enquired with driver DL and found that ${data.driverGenderInDriver} ${data.driverDLStatus}`}.`}
+                                          {`We have verified the driver call data ${data.driverCallData==="not available" ? `, but it was not availble for the accident date.` : `${data.driverCallData==="match" ?`, it matches with the version provided, and we did not find any suspects.` : `${data.driverCallData==="mismatch" ? `and found some differences in call log. So, we identified a few suspects and enclosed for your reference.`:``}`}`} ${data.driverDLStatus==="not provided" ? `The driver did not provide ${data.driverGenderInDriver==="he"?"his":"her"} driving license for verification`: `We have enquired about driver DL and found that ${data.driverGenderInDriver} ${data.driverDLStatus}`}.`}
                                     </Text>
                                   </View>)
                                   }
@@ -542,7 +542,7 @@ if (accidentDate && policyStartDate) {
                               {`\u2022`}
                             </Text>
                             <Text style={styles.bulletContent}>
-                              {`We verified the IV documents such as RC, RC Extract and Policy copy, and found ${data.insuredNameMatchInRC ==='matching' ? `no deviation in the insured name.` : `deviation in the insured name. The evidence is ${data.insuredNameMismatchReason}.`}`}
+                              {`We verified the IV documents such as RC, RC Extract and Policy copy, and found ${data.insuredNameMatchInRC ==='matching' ? `no deviation in the insured name in all documents.` : `deviation in the insured name. The evidence is ${data.insuredNameMismatchReason}.`}`}
                             </Text> 
                           </View>                          
                           }
