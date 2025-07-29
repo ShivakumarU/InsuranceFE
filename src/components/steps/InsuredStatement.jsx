@@ -330,6 +330,14 @@ const InsuredStatement = ({ formData, setFormData }) => {
                 <option value="yes">Yes</option>
               </select>
             </div>
+            {formData.withdrawOfClaim === 'yes' && (<div>
+                <label className="label">Withdraw Reason : </label>
+                <textarea 
+                  className="textarea textarea-bordered w-full"
+                  value={formData.withdrawAdditionalComments || ''}
+                  onChange={(e) => handleChange('withdrawAdditionalComments', e.target.value)}
+                />
+            </div>)}
           </>
         )}
       </div>

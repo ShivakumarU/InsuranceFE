@@ -134,6 +134,30 @@ const Report = ({ data }) => {
 console.log("Data: ", data);
 console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
 
+const parseDDMMYYYY = (dateStr) => {
+  if (!dateStr || typeof dateStr !== 'string') return null;
+
+  const parts = dateStr.trim().split('/');
+  if (parts.length !== 3) return null;
+
+  const [dd, mm, yyyy] = parts.map(part => parseInt(part, 10));
+  if (isNaN(dd) || isNaN(mm) || isNaN(yyyy)) return null;
+
+  const date = new Date(yyyy, mm - 1, dd); 
+  return isNaN(date.getTime()) ? null : date;
+};
+
+const accidentDate = parseDDMMYYYY(data.accidentDate);
+const policyStartDate = parseDDMMYYYY(data.policyStartDate);
+
+let closeProximity = null;
+
+if (accidentDate && policyStartDate) {
+  const diffTime = accidentDate.getTime() - policyStartDate.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  closeProximity = diffDays;
+}
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -165,12 +189,12 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
               </React.Fragment>
             ))}
           </View>
-          <Text style={{fontWeight:'bold', marginTop:15, textDecoration:'underline'}}>
+          <Text style={{fontWeight:'bold', marginTop:19, textDecoration:'underline'}}>
             {data.insuredType && data.insuredType.charAt(0).toUpperCase() + data.insuredType.slice(1)} Version :
           </Text>
           {data.withdrawOfClaim==="no" ? 
           (<View>
-                  <Text style={{ marginTop: 9 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
+                  <Text style={{ marginTop: 19 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                     {`${data.insuredVerified === "yes" ?      
                     `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation} is having a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, at ${data.accidentPlaceInInsuredStatement} ${data.accidentMannerInInsuredStatement}. At the time of accident, ${data.travellingPersonRelationInInsuredStatement} is travelling ${
                       data.totalPersonsInInsuredStatement === 1
@@ -473,7 +497,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                               </Text>
                             </View>
                           )}
-                          {data.anyOccupantInIV === "yes" && data.occupantsAddAnything==="yes" && 
+                          {data.occupantsAddAnything==="yes" && 
                           (<View style={styles.bulletItem}>
                               <Text style={styles.bulletSymbol}>
                                 {`\u2022`}
@@ -539,7 +563,16 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
                               {`As per their version, in the said accident ${data.thirdPartyVehicleInvolved==="no" ? `there is no TP vehicle involved.` : `TP vehicle involved and details are ${data.thirdPartyDetails}.`}`}
                             </Text>   
                           </View>                       
-                          }                    
+                          }   
+                          {<View style={styles.bulletItem}>
+                            <Text style={styles.bulletSymbol}>
+                              {`\u2022`}
+                            </Text>
+                            <Text style={styles.bulletContent}>
+                              {`During our verification, ${closeProximity<=45 ? `we found ${closeProximity}days of close proximity with refernce to accident date. ` : `there is no close proximity of policy noted with reference to accident date.`}`}
+                            </Text>   
+                          </View>                       
+                          }                                            
                           {<View style={styles.bulletItem}>
                             <Text style={styles.bulletSymbol}>
                               {`\u2022`}
@@ -582,7 +615,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
           : 
           (
             <View>
-              <Text style={{ marginTop: 9 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
+              <Text style={{ marginTop: 19 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                 {`During the course of investigation, we met with the ${data.insuredType} - ${data.insuredNameInInsuredStatement}, Occ: ${data.insuredOccupation}, to enquire about the accident. As per ${data.insuredType}, ${data.insuredGender} is having a vehicle with Reg.No: ${
                   data.ivNumber}. This vehicle met with ${data.accidentType==="accident"?`an accident`:`a fire accident`} on ${data.accidentDateInInsuredStatement}. For the same, ${data.insuredGender} raised a claim with Claim.No: ${data.claimNumber}. Now ${data.insuredGender} would like to withdraw the claim. For the same we obtained all the required documents and attached with this report.`
                 }
@@ -595,7 +628,7 @@ console.log("Insured Photo 0: ", data?.insuredPhotosUpload?.[0]);
               </Text>
               <Text style={{lineHeight:1.3, textAlign:'justify', textIndent:40}}>
                 {data.withdrawOfClaim === "yes" ? (
-                  `Based on documents and evidence, the ${data.insuredType} has withdrawn the claim. Hence, the insurer can take an appropriate decision as per the terms and conditions of the policy. Supporting evidence is enclosed.`
+                  `Based on documents and evidence, the ${data.insuredType} has withdrawn the claim. ${data.withdrawAdditionalComments} Hence, the insurer can take an appropriate decision as per the terms and conditions of the policy. Supporting evidence is enclosed.`
                 ) : (
                   `Based on documents and evidence, ${
                     data.conclusionOpinion === "payable"

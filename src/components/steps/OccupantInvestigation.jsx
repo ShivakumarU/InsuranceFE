@@ -67,7 +67,8 @@ const OccupantInvestigation = ({ formData, setFormData }) => {
                 />
               </div>
             )}
-
+          </>
+        )}
 
             <div className="md:col-span-2">
               <label className="label">Do you want to add anything?</label>
@@ -92,8 +93,6 @@ const OccupantInvestigation = ({ formData, setFormData }) => {
                 />
               </div>
             )}
-          </>
-        )}
       </div>
     </div>
   );
