@@ -569,19 +569,10 @@ if (accidentDate && policyStartDate) {
                               {`\u2022`}
                             </Text>
                             <Text style={styles.bulletContent}>
-                              {`During our verification, ${closeProximity<=45 ? `we found ${closeProximity}days of close proximity with refernce to accident date. ` : `there is no close proximity of policy noted with reference to accident date.`}`}
+                              {`During our verification, ${closeProximity<=45 ? `we found ${closeProximity}days of close proximity with refernce to accident date ${data.breakInPolicy==='yes'? `and we observed a break in the policy. The details have been enclosed with this report.` : `and there is no break observed between the IV’s previous and current policies. Copies of both policies are enclosed with this report.`}` : `there is no close proximity of policy noted with reference to accident date.`}`}
                             </Text>   
                           </View>                       
                           }                                            
-                          {<View style={styles.bulletItem}>
-                            <Text style={styles.bulletSymbol}>
-                              {`\u2022`}
-                            </Text>
-                            <Text style={styles.bulletContent}>
-                              {`${data.breakInPolicy==='yes'? `During the course of the investigation, we observed a break in the policy. The details have been enclosed with this report.` : `There is no break observed between the IV’s previous and current policies. Copies of both policies are enclosed with this report.`}`}
-                            </Text>   
-                          </View>                       
-                          } 
                           {<View style={styles.bulletItem}>
                             <Text style={styles.bulletSymbol}>
                               {`\u2022`}
