@@ -22,7 +22,7 @@ const NavBar = () => {
         </div>
         <div className="flex-none">
             <div className="flex items-center gap-4">             
-                <button className='hover:text-blue-600 hover:font-bold'>
+                <button className='hover:text-blue-600 hover:font-bold'  title="This is not implemented">
                     <span>Logout</span>
                 </button>
                 
