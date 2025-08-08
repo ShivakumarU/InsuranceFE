@@ -4,6 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 import Home from './pages/Home';
 import MultiStepForm from './pages/MultiStepForm';
 import Sample from './Sample';
+import Finished from './pages/Finished';
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/investigations' element={<MultiStepForm />} />
         <Route path='/investigations/:caseNumber' element={<MultiStepForm />} />
         <Route path='/sample/:caseNumber' element={<Sample />}></Route>
+        <Route path='/finished' element={<Finished />}></Route>
       </Routes>
     </div>
   )

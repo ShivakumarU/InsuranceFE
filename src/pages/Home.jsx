@@ -1,7 +1,7 @@
 import NavBar from '../components/NavBar';
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
-import { Trash } from 'lucide-react';
+import { SquareCheckBig, Trash } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,10 +65,24 @@ const Home = () => {
 return (
  
     <div>
-      <NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <NavBar  />
       <div className="p-10 border-b mt-5">
-        <h2 className="text-2xl font-bold mb-12 mt-5 gradient-flex">Insurance - All Pending Cases : {cases.length}</h2>
-
+        <div className="flex items-center gap-10 mb-12">
+            <div>
+              <h2 className="text-2xl font-bold mt-5 gradient-flex ">Insurance - All Pending Cases : {cases.length}</h2>
+            </div>
+            <div className="flex items-center gap-4 ml-auto">
+                <div className="form-control">
+                    <input type="text" placeholder="🔍︎ Search . . . . . . ." className="input border-yellow-600 focus:border-gray-500 focus:outline-none focus:border-2 w-80" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value.toLowerCase())} />
+                </div>
+                <button onClick={()=> navigate('/investigations')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
+                  <span>Create a New Case</span>
+                </button>    
+                <button onClick={()=> navigate('/finished')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
+                  <span>View Finished Cases</span>
+                </button>            
+            </div>
+        </div>
         <div className="grid grid-cols-[50px_repeat(6,_1fr)_50px] gap-4 border-b py-3 px-2 bg-gray-300 text-black  text-left">
           <div>S.No</div>
           <div>Company Name</div>
@@ -137,7 +151,7 @@ return (
               <div className={`px-2 py-1 rounded ${closeProximity <= 30 && closeProximity  !== null ? "text-red-600 font-bold w-2/5" : ""}`}>
                 {closeProximity  !== null ? `${closeProximity<=30?`${closeProximity} days`:`${closeProximity}`}` : "N/A"}
               </div>
-              <div className='flex items-center justify-center'>
+              <div className='flex items-center justify-center gap-2'>
                 <Trash
                   onClick={(e) => {
                     e.stopPropagation();
@@ -145,6 +159,7 @@ return (
                   }}
                   className="w-5 h-5 transition-all duration-200 hover:w-4 hover:h-4 cursor-pointer"
                 />
+                 <SquareCheckBig className='cursor-pointer'/>
               </div>
             </button>
           );

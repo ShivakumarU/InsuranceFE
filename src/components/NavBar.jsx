@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import LogoImage from '../assets/Logo-img.png'
 import LogoName from '../assets/Logo-Name.png'
-import { useNavigate } from 'react-router-dom';
 
-const NavBar = ({searchTerm, setSearchTerm }) => {
+const NavBar = () => {
     const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "black");
 
     const handleToggle = () => {
@@ -12,8 +11,6 @@ const NavBar = ({searchTerm, setSearchTerm }) => {
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
     };
-
-    const navigate = useNavigate();
 
   return (
     <div className="navbar bg-base-100 py-5 shadow-[1px_1px_10px_rgba(0,0,0,0.2)] dark:shadow-slate-400">
@@ -24,15 +21,12 @@ const NavBar = ({searchTerm, setSearchTerm }) => {
             </a>
         </div>
         <div className="flex-none">
-            <div className="flex items-center gap-4">
-                <button onClick={()=> navigate('/investigations')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
-                  <span>Create a New Case</span>
-                </button>                
-                <div className="form-control">
-                    <input type="text" placeholder="Search" className="input border-yellow-600 focus:border-gray-500 focus:outline-none focus:border-2 w-full max-w-xs" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value.toLowerCase())} />
-                </div>
+            <div className="flex items-center gap-4">             
+                <button className='hover:text-blue-600 hover:font-bold'>
+                    <span>Logout</span>
+                </button>
                 
-                <label className="swap swap-rotate mx-2">
+                <label className="swap swap-rotate mx-5">
                     <input type="checkbox" onChange={handleToggle} checked={theme === "acid"}  />
                     <svg
                         className="swap-on h-6 w-6 fill-current"
