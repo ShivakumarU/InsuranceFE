@@ -4,11 +4,18 @@ import api from '../../lib/axios';
 import { SquareCheckBig, Trash } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Confetti from 'react-confetti';
 
 
 const Home = () => {
   const [cases, setCases] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+  setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+}, []);
 
 
   const navigate = useNavigate();
@@ -62,14 +69,35 @@ const Home = () => {
     }
   };
 
+  const handleMarkFinished = async (caseNumber, currentStatus) => {
+      const action = !currentStatus ? "mark this case as finished" : "move it back to pending";
+      if (!window.confirm(`Are you sure you want to ${action}?`)) return;
+      try {
+        await api.put(`/insured-details/${caseNumber}`, {
+          isFinished: !currentStatus,
+        });
+        if (!currentStatus) { 
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 4000); 
+         }
+        toast.success(`Case ${!currentStatus ? "marked as finished" : "moved back to pending"}`);
+        fetchCases(); 
+      } catch (err) {
+        toast.error("Unable to update case");
+        console.error(err);
+      }
+   };
+
+
 return (
  
     <div>
+       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} numberOfPieces={200} gravity={0.5} initialVelocityY={10}/>}
       <NavBar  />
       <div className="p-10 border-b mt-5">
         <div className="flex items-center gap-10 mb-12">
             <div>
-              <h2 className="text-2xl font-bold mt-5 gradient-flex ">Insurance - All Pending Cases : {cases.length}</h2>
+              <h2 className="text-2xl font-bold mt-5 gradient-flex ">Insurance - All Pending Cases : {cases.filter(item => !item.isFinished).length}</h2>
             </div>
             <div className="flex items-center gap-4 ml-auto">
                 <div className="form-control">
@@ -92,7 +120,7 @@ return (
           <div>Vehicle Type</div>
           <div>Close Proximity ( Days )</div>
         </div>
-        {cases.filter((item) => {
+        {cases.filter(item => !item.isFinished).filter((item) => {
                 const fields = [
                   item.insuranceCompany,
                   item.insuredName,
@@ -159,7 +187,10 @@ return (
                   }}
                   className="w-5 h-5 transition-all duration-200 hover:w-4 hover:h-4 cursor-pointer"
                 />
-                 <SquareCheckBig className='cursor-pointer'/>
+                 <SquareCheckBig className='cursor-pointer' onClick={(e)=> {
+                  e.stopPropagation();
+                  handleMarkFinished(item.caseNumber, item.isFinished);
+                 }}/>
               </div>
             </button>
           );
