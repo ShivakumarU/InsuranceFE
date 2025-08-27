@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import LogoImage from '../assets/Logo-img.png'
 import LogoName from '../assets/Logo-Name.png'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+
 
 const NavBar = () => {
     const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "black");
+    const navigate = useNavigate();
+
 
     const handleToggle = () => {
     const newTheme = theme === "acid" ? "black" : "acid";
@@ -11,6 +16,17 @@ const NavBar = () => {
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
     };
+
+
+  // ✅ Logout handler
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+        localStorage.removeItem("token");
+        toast.success("Logged out successfully");
+        navigate("/"); // redirect to login
+    }
+  };
 
   return (
     <div className="navbar bg-base-100 py-5 shadow-[1px_1px_10px_rgba(0,0,0,0.2)] dark:shadow-slate-400">
@@ -22,7 +38,7 @@ const NavBar = () => {
         </div>
         <div className="flex-none">
             <div className="flex items-center gap-4">             
-                <button className='hover:text-blue-600 hover:font-bold'  title="This is not implemented">
+                <button className='hover:text-blue-600 hover:font-bold'  title="Logout" onClick={handleLogout}>
                     <span>Logout</span>
                 </button>
                 
