@@ -2,38 +2,70 @@ import { LockKeyhole, LockKeyholeOpen, LogIn, Mail } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import api from '../../lib/axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const res = await fetch("http://localhost:5001/api/user-auth/login", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ email, password }),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (!res.ok) {
+  //       toast.error(data.message || "Login failed");
+  //       return;
+  //     }
+
+  //     // Save token in localStorage
+  //     localStorage.setItem("token", data.token);
+  //     toast.success("Login successful");
+
+  //     // Navigate to /home
+  //     navigate("/home");
+  //   } catch (err) {
+  //     console.error("Login error:", err);
+  //     alert("Something went wrong");
+  //   }  
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5001/api/user-auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error(data.message || "Login failed");
-        return;
-      }
-
+      // Send POST request using axios instance
+      const res = await api.post("/user-auth/login", { email, password });
+  
+      // Axios automatically parses JSON, so no need for res.json()
+      const data = res.data;
+  
       // Save token in localStorage
       localStorage.setItem("token", data.token);
       toast.success("Login successful");
-
+  
       // Navigate to /home
       navigate("/home");
     } catch (err) {
       console.error("Login error:", err);
-      alert("Something went wrong");
-    }  
+  
+      if (err.response) {
+        // Server responded with a status code outside 2xx
+        toast.error(err.response.data.message || "Login failed");
+      } else if (err.request) {
+        // No response from server
+        toast.error("No response from server");
+      } else {
+        // Something else happened
+        toast.error("Something went wrong");
+      }
+    }
   };
 
   return (
