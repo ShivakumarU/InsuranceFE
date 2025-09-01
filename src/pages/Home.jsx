@@ -6,48 +6,47 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 
-
 const Home = () => {
   const [cases, setCases] = useState([]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-  setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-}, []);
-
+  const [pagination, setPagination] = useState({
+    totalRecords: 0,
+    totalPages: 0,
+    currentPage: 1,
+    pageSize: 10,
+  });
 
   const navigate = useNavigate();
 
-  const fetchCases = async () => {
+  useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+
+  const fetchCases = async (page = 1) => {
     try {
-      const res = await api.get("/insured-details");
-      const sortedData = res.data.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-      setCases(sortedData);
+      const res = await api.get(`/insured-details?page=${page}&limit=10&status=pending`);
+      setCases(res.data.data); 
+      setPagination(res.data.pagination);
     } catch (error) {
       console.error("Error fetching cases", error);
     }
-  };
+  };  
+
 
   useEffect(() => {
-    fetchCases();
-  }, []);
-
+    fetchCases(pagination.currentPage);
+  }, [pagination.currentPage]);
 
   const handleDeleteClaim = async (caseNumber) => {
     const deleteSafe = async (url) => {
       try {
         await api.delete(url);
       } catch (err) {
-        if (err.response?.status !== 404) {
-          throw err;
-        }
+        if (err.response?.status !== 404) throw err;
       }
     };
-
     try {
       if (window.confirm("Are you sure you want to delete this claim?")) {
         await deleteSafe(`/insured-details/${caseNumber}`);
@@ -61,7 +60,7 @@ const Home = () => {
         await deleteSafe(`/other-details/${caseNumber}`);
 
         toast.success("Deleted successfully");
-        fetchCases(); 
+        fetchCases(pagination.currentPage); // refresh current page
       }
     } catch (error) {
       console.error("Error deleting the claim", error);
@@ -70,48 +69,80 @@ const Home = () => {
   };
 
   const handleMarkFinished = async (caseNumber, currentStatus) => {
-      const action = !currentStatus ? "mark this case as finished" : "move it back to pending";
-      if (!window.confirm(`Are you sure you want to ${action}?`)) return;
-      try {
-        await api.put(`/insured-details/${caseNumber}`, {
-          isFinished: !currentStatus,
-        });
-        if (!currentStatus) { 
-          setShowConfetti(true);
-          setTimeout(() => setShowConfetti(false), 4000); 
-         }
-        toast.success(`Case ${!currentStatus ? "marked as finished" : "moved back to pending"}`);
-        fetchCases(); 
-      } catch (err) {
-        toast.error("Unable to update case");
-        console.error(err);
+    const action = !currentStatus ? "mark this case as finished" : "move it back to pending";
+    if (!window.confirm(`Are you sure you want to ${action}?`)) return;
+    try {
+      await api.put(`/insured-details/${caseNumber}`, {
+        isFinished: !currentStatus,
+      });
+      if (!currentStatus) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 4000);
       }
-   };
+      toast.success(`Case ${!currentStatus ? "marked as finished" : "moved back to pending"}`);
+      fetchCases(pagination.currentPage);
+    } catch (err) {
+      toast.error("Unable to update case");
+      console.error(err);
+    }
+  };
 
+  const parseDDMMYYYY = (dateStr) => {
+    if (!dateStr || typeof dateStr !== 'string') return null;
+    const parts = dateStr.trim().split('/');
+    if (parts.length !== 3) return null;
+    const [dd, mm, yyyy] = parts.map(p => parseInt(p, 10));
+    if (isNaN(dd) || isNaN(mm) || isNaN(yyyy)) return null;
+    const date = new Date(yyyy, mm - 1, dd);
+    return isNaN(date.getTime()) ? null : date;
+  };
 
-return (
- 
+  return (
     <div>
-       {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} numberOfPieces={200} gravity={0.5} initialVelocityY={10}/>}
-      <NavBar  />
-      <div className="p-10 border-b mt-5">
+      {showConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          numberOfPieces={200}
+          gravity={0.5}
+          initialVelocityY={10}
+        />
+      )}
+
+      <NavBar />
+      <div className="py-5 px-8 border-b mt-5">
         <div className="flex items-center gap-10 mb-12">
-            <div>
-              <h2 className="text-2xl font-bold mt-5 gradient-flex ">Insurance - All Pending Cases : {cases.filter(item => !item.isFinished).length}</h2>
+          <div>
+            <h2 className="text-2xl font-bold mt-5 gradient-flex">
+              Insurance - All Pending Cases : {pagination.totalRecords}
+            </h2>
+          </div>
+          <div className="flex items-center gap-4 ml-auto">
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="🔍︎ Search . . . . . . ."
+                className="input border-yellow-600 focus:border-gray-500 focus:outline-none focus:border-2 w-80"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
+              />
             </div>
-            <div className="flex items-center gap-4 ml-auto">
-                <div className="form-control">
-                    <input type="text" placeholder="🔍︎ Search . . . . . . ." className="input border-yellow-600 focus:border-gray-500 focus:outline-none focus:border-2 w-80" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value.toLowerCase())} />
-                </div>
-                <button onClick={()=> navigate('/investigations')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
-                  <span>Create a New Case</span>
-                </button>    
-                <button onClick={()=> navigate('/finished')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
-                  <span>View Finished Cases</span>
-                </button>            
-            </div>
+            <button
+              onClick={() => navigate('/investigations')}
+              className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white"
+            >
+              <span>Create a New Case</span>
+            </button>
+            <button
+              onClick={() => navigate('/finished')}
+              className="btn bg-black text-white border border-black hover:bg-white hover:text-black"
+            >
+              <span>View Finished Cases</span>
+            </button>
+          </div>
         </div>
-        <div className="grid grid-cols-[50px_repeat(6,_1fr)_50px] gap-4 border-b py-3 px-2 bg-gray-300 text-black  text-left">
+
+        <div className="grid grid-cols-[50px_repeat(6,_1fr)_50px] gap-4 border-b py-3 px-2 bg-gray-300 text-black text-left">
           <div>S.No</div>
           <div>Company Name</div>
           <div>Insured Name</div>
@@ -120,84 +151,115 @@ return (
           <div>Vehicle Type</div>
           <div>Close Proximity ( Days )</div>
         </div>
-        {cases.filter(item => !item.isFinished).filter((item) => {
-                const fields = [
-                  item.insuranceCompany,
-                  item.insuredName,
-                  item.claimNumber,
-                  item.ivNumber,
-                  item.vehicleType,
-                ];
-                return fields.some(field =>
-                  field?.toLowerCase().includes(searchTerm)
-                );
-              })
-              .map((item, index) => {
 
-          const parseDDMMYYYY = (dateStr) => {
-            if (!dateStr || typeof dateStr !== 'string') return null;
+        {cases
+          .filter((item) => {
+            const fields = [
+              item.insuranceCompany,
+              item.insuredName,
+              item.claimNumber,
+              item.ivNumber,
+              item.vehicleType,
+            ];
+            return fields.some((field) =>
+              field?.toLowerCase().includes(searchTerm)
+            );
+          })
+          .map((item, index) => {
+            const accidentDate = parseDDMMYYYY(item.accidentDate);
+            const policyStartDate = parseDDMMYYYY(item.policyStartDate);
 
-            const parts = dateStr.trim().split('/');
-            if (parts.length !== 3) return null;
+            let closeProximity = null;
+            if (accidentDate && policyStartDate) {
+              const diffTime = accidentDate.getTime() - policyStartDate.getTime();
+              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+              closeProximity = diffDays;
+            }
 
-            const [dd, mm, yyyy] = parts.map(part => parseInt(part, 10));
-            if (isNaN(dd) || isNaN(mm) || isNaN(yyyy)) return null;
+            return (
+              <button
+                onClick={() => navigate(`/investigations/${item.caseNumber}`)}
+                key={item.caseNumber}
+                className="grid grid-cols-[50px_repeat(6,_1fr)_50px] gap-4 py-3 px-2 border-b text-left hover:bg-gray-400 w-full hover:text-black"
+              >
+                <div>{index + 1 + (pagination.currentPage - 1) * pagination.pageSize}</div>
+                <div>
+                  {item.insuranceCompany.includes("TATA")
+                    ? "TATA"
+                    : item.insuranceCompany.includes("Chola")
+                    ? "CHOLA"
+                    : item.insuranceCompany.includes("Reliance")
+                    ? "RELIANCE"
+                    : item.insuranceCompany.includes("Digit")
+                    ? "DIGIT"
+                    : item.insuranceCompany.split(" ")[0]}
+                </div>
+                <div>{item.insuredName}</div>
+                <div>{item.claimNumber}</div>
+                <div>{item.ivNumber}</div>
+                <div>{item.vehicleType}</div>
+                <div
+                  className={`px-2 py-1 rounded ${
+                    closeProximity <= 30 && closeProximity !== null
+                      ? "text-red-600 font-bold w-2/5"
+                      : ""
+                  }`}
+                >
+                  {closeProximity !== null
+                    ? `${closeProximity <= 30 ? `${closeProximity} days` : `${closeProximity}`}`
+                    : "N/A"}
+                </div>
+                <div className="flex items-center justify-center gap-2">
+                  <Trash
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClaim(item.caseNumber);
+                    }}
+                    className="w-5 h-5 transition-all duration-200 hover:w-4 hover:h-4 cursor-pointer"
+                  />
+                  <SquareCheckBig
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleMarkFinished(item.caseNumber, item.isFinished);
+                    }}
+                  />
+                </div>
+              </button>
+            );
+          })}
 
-            const date = new Date(yyyy, mm - 1, dd); 
-            return isNaN(date.getTime()) ? null : date;
-          };
-
-          const accidentDate = parseDDMMYYYY(item.accidentDate);
-          const policyStartDate = parseDDMMYYYY(item.policyStartDate);
-
-          let closeProximity = null;
-
-          if (accidentDate && policyStartDate) {
-            const diffTime = accidentDate.getTime() - policyStartDate.getTime();
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            closeProximity = diffDays;
-          }
-
-          return (
-            <button 
-              onClick={() => navigate(`/investigations/${item.caseNumber}`)}
-              key={item.caseNumber}
-              className="grid grid-cols-[50px_repeat(6,_1fr)_50px] gap-4 py-3 px-2 border-b text-left hover:bg-gray-400 w-full hover:text-black"
-            >
-              <div>{index + 1}</div>
-              <div>
-                {item.insuranceCompany.includes("TATA") ? "TATA" :
-                item.insuranceCompany.includes("Chola") ? "CHOLA" :
-                item.insuranceCompany.includes("Reliance") ? "RELIANCE" :
-                item.insuranceCompany.includes("Digit") ? "DIGIT" :
-                item.insuranceCompany.split(" ")[0]}
-              </div>
-              <div>{item.insuredName}</div>
-              <div>{item.claimNumber}</div>
-              <div>{item.ivNumber}</div>
-              <div>{item.vehicleType}</div>
-              <div className={`px-2 py-1 rounded ${closeProximity <= 30 && closeProximity  !== null ? "text-red-600 font-bold w-2/5" : ""}`}>
-                {closeProximity  !== null ? `${closeProximity<=30?`${closeProximity} days`:`${closeProximity}`}` : "N/A"}
-              </div>
-              <div className='flex items-center justify-center gap-2'>
-                <Trash
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteClaim(item.caseNumber);
-                  }}
-                  className="w-5 h-5 transition-all duration-200 hover:w-4 hover:h-4 cursor-pointer"
-                />
-                 <SquareCheckBig className='cursor-pointer' onClick={(e)=> {
-                  e.stopPropagation();
-                  handleMarkFinished(item.caseNumber, item.isFinished);
-                 }}/>
-              </div>
-            </button>
-          );
-        })}
-
+        {/* ✅ Pagination Controls */}
+        <div className="flex justify-center items-center mt-8 gap-4">
+          <button
+            disabled={pagination.currentPage === 1}
+            onClick={() =>
+              setPagination((prev) => ({
+                ...prev,
+                currentPage: prev.currentPage - 1,
+              }))
+            }
+            className="btn btn-outline btn-sm"
+          >
+            Prev
+          </button>
+          <span>
+            Page {pagination.currentPage} of {pagination.totalPages}
+          </span>
+          <button
+            disabled={pagination.currentPage === pagination.totalPages}
+            onClick={() =>
+              setPagination((prev) => ({
+                ...prev,
+                currentPage: prev.currentPage + 1,
+              }))
+            }
+            className="btn btn-outline btn-sm" 
+          >
+            Next
+          </button>
+        </div>
       </div>
-
     </div>
   );
 };

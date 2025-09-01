@@ -8,21 +8,27 @@ import toast from 'react-hot-toast';
 const Finished = () => {
   const [cases, setCases] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [pagination, setPagination] = useState({
+    totalRecords: 0,
+    totalPages: 0,
+    currentPage: 1,
+    pageSize: 10,
+  });
+
   const navigate = useNavigate();
 
-  const fetchFinishedCases = async () => {
+  const fetchFinishedCases = async (page = 1) => {
     try {
-      const res = await api.get("/insured-details"); 
-      const finished = res.data.filter(item => item.isFinished); 
-      const sorted = finished.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      setCases(sorted);
+      const res = await api.get(`/insured-details?status=finished&page=${page}&limit=10`);
+      setCases(res.data.data);
+      setPagination(res.data.pagination);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching finished cases", err);
     }
   };
 
   useEffect(() => {
-    fetchFinishedCases();
+    fetchFinishedCases(1);
   }, []);
 
   const handleDeleteClaim = async (caseNumber) => {
@@ -46,7 +52,7 @@ const Finished = () => {
         await deleteSafe(`/other-details/${caseNumber}`);
 
         toast.success("Deleted successfully");
-        fetchFinishedCases(); 
+        fetchFinishedCases(pagination.currentPage); 
       }
     } catch (error) {
       console.error("Error deleting the claim", error);
@@ -62,7 +68,7 @@ const Finished = () => {
         isFinished: !currentStatus,
       });
       toast.success(`Case ${!currentStatus ? "marked as finished" : "moved back to pending"}`);
-      fetchFinishedCases(); 
+      fetchFinishedCases(pagination.currentPage); 
     } catch (err) {
       toast.error("Unable to update case");
       console.error(err);
@@ -82,11 +88,11 @@ const Finished = () => {
   return (
     <div>
       <NavBar />
-      <div className="p-10 border-b mt-5">
+      <div className="px-8 py-5 border-b mt-5">
         <div className="flex items-center gap-10 mb-12">
           <div className='flex gap-6 items-center'>
             <h2 className="text-2xl font-bold gradient-flex">
-              Insurance - Total Finished Cases : {cases.length}
+              Insurance - Total Finished Cases : {pagination.totalRecords}
             </h2>
             <CheckLine size={50} color='skyblue'/>
           </div>
@@ -103,7 +109,7 @@ const Finished = () => {
             <button onClick={()=> navigate('/investigations')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
               <span>Create a New Case</span>
             </button>    
-            <button onClick={()=> navigate('/home')} className="btn btn-outline btn-hover-fill before:bg-orange-600 hover:text-white">
+            <button onClick={()=> navigate('/home')} className="btn btn-outline btn-hover-fill bg-orange-600 text-white">
               <span>View Pending Cases</span>
             </button>            
           </div>
@@ -145,7 +151,7 @@ const Finished = () => {
               key={item.caseNumber}
               className="grid grid-cols-[50px_repeat(6,_1fr)_50px] gap-4 py-3 px-2 border-b text-left hover:bg-gray-400 w-full hover:text-black"
             >
-              <div>{index + 1}</div>
+              <div>{index + 1 + (pagination.currentPage - 1) * pagination.pageSize}</div>
               <div>
                 {item.insuranceCompany.includes("TATA") ? "TATA" :
                  item.insuranceCompany.includes("Chola") ? "CHOLA" :
@@ -176,6 +182,27 @@ const Finished = () => {
             </button>
           );
         })}
+
+        {/* ✅ Pagination Controls */}
+        <div className="flex justify-center items-center mt-8 gap-4">
+          <button 
+            disabled={pagination.currentPage === 1}
+            onClick={() => fetchFinishedCases(pagination.currentPage - 1)}
+            className="btn btn-outline btn-sm"
+          >
+            Prev
+          </button>
+          <span>
+            Page {pagination.currentPage} of {pagination.totalPages}
+          </span>
+          <button 
+            disabled={pagination.currentPage === pagination.totalPages}
+            onClick={() => fetchFinishedCases(pagination.currentPage + 1)}
+            className="btn btn-outline btn-sm"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
