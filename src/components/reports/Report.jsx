@@ -196,28 +196,30 @@ if (accidentDate && policyStartDate) {
           (<View>
                   <Text style={{ marginTop: 19 , lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                     {`${data.insuredVerified === "yes" ?      
-                    `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation} is having a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.vehicleCondition==='moving'? `while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}`:`${data.vehicleCondition==='parked'?`when IV is in parked condition`:`${data.vehicleCondition===`operating`?`while ${data.travellingPersonRelationInInsuredStatement} operating IV`:``}`}`}, due to ${data.accidentMannerInInsuredStatement}. At the time of accident, ${data.travellingPersonRelationInInsuredStatement} is travelling ${
+                    `${data.insuredType?.charAt(0).toUpperCase() + data.insuredType?.slice(1)} ${data.insuredName}, Occ: ${data.insuredOccupation}, owns a vehicle with Reg.no: ${data.ivNumberInInsuredStatement}, using for ${data.insuredGender=== "she" ? `her`:`his`} ${data.ivUse}. This vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.vehicleCondition==='moving'? `while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, due to`:`${data.vehicleCondition==='parked'?`when IV is in parked condition`:`${data.vehicleCondition===`operating`?`while ${data.travellingPersonRelationInInsuredStatement} was operating IV`:``}`}`} ${data.accidentMannerInInsuredStatement}. ${
+                      data.vehicleCondition=== 'moving' ? `At the time of accident, ${data.travellingPersonRelationInInsuredStatement} was travelling ${
                       data.totalPersonsInInsuredStatement === 1
-                        ? "alone"
+                        ? "alone."
                         : data.totalPersonsInInsuredStatement === 2
-                        ? "along with another person"
+                        ? "along with another person."
                         : data.totalPersonsInInsuredStatement > 2
-                        ? `along with ${data.totalPersonsInInsuredStatement - 1} other persons`:``
-                    }. In this accident, IV damaged ${
+                        ? `along with ${data.totalPersonsInInsuredStatement - 1} other persons.`:``
+                    }`: data.vehicleCondition=== 'parked' ? `At the time of accident, ${data.totalPersonsInInsuredStatement===1? `1 person was`: `${data.totalPersonsInInsuredStatement} persons were`} present in the vehicle.` : ``} In this accident, IV damaged ${
                     data.anyInjuryInInsured?.toLowerCase() === "injured"
-                      ? `and ${data.injuredNameRelationInInsured} is injured.`
+                      ? `and ${data.injuredNameRelationInInsured} is injured`
                       : data.anyInjuryInInsured?.toLowerCase() === "no one injured"
-                      ? "but no one injured."
+                      ? "but no one injured"
                       : ""
-                    } Regarding this accident, ${
+                    } and ${
                       data.policeCaseInInsured === "yes"
-                        ? `Police filed F.I.R at ${data.policeStationNameInInsured}.`
+                        ? `police filed F.I.R at ${data.policeStationNameInInsured}`
                         : data.policeCaseInInsured === "no"
-                        ? "No police case filed."
+                        ? "no police case filed"
                         : data.policeCaseInInsured === "Panchanama"
-                        ? `Police issued panchanama only at ${data.policeStationNameInInsured}. `
+                        ? `police issued panchanama only at ${data.policeStationNameInInsured}`
                         : ""
-                    } At the time of accident, IV driven by ${data.ivDriverNameInInsured} and ${data.driverGender} is ${data.driverDLInInsured}. For the same, ${data.insuredGender} provided ${
+                    }. ${
+                      data.vehicleCondition==='parked' ? `Prior to the accident, vehicle parked` : `At the time of accident, the IV was ${data.vehicleCondition === 'moving' ? `driven` : data.vehicleCondition==='operating' ? `operated`: ``}`} by ${data.ivDriverNameInInsured} and ${data.driverGender} is ${data.driverDLInInsured}. For the same, ${data.insuredGender} provided ${
                       data.insuredGender === "he"
                         ? "his"
                         : data.insuredGender === "she"
@@ -239,12 +241,22 @@ if (accidentDate && policyStartDate) {
                       </Text>
                       <Text style={{marginTop:10,lineHeight:1.2, textIndent:40, textAlign:'justify'}}>
                         {`${data.driverVerified==="no"? `During the course of investigation, we are unable to meet the driver due to ${data.driverNotVisitReason}`
-                        :`Driver - ${data.driverNameInDriver}, Occ: ${data.driverOccupation}, is driving insured vehicle with Reg.No: ${data.carNoInDriver} from ${data.travelFromInDriver} to ${data.travelToInDriver} ${data.ivTotalPersonsInDriver === 1
+                        :`Driver - ${data.driverNameInDriver}, Occ: ${data.driverOccupation}, ${data.vehicleCondition==='moving' ? `was driving`: data.vehicleCondition==='operating' ? `was operating` : data.vehicleCondition==='parked'? `had parked`: ``} the insured vehicle with Reg.No: ${data.carNoInDriver} ${data.vehicleCondition==='moving'? `from ${data.travelFromInDriver} to ${data.travelToInDriver} ${data.ivTotalPersonsInDriver === 1
                         ? "alone"
                         : data.ivTotalPersonsInDriver === 2
                         ? "along with another person" 
                         : data.ivTotalPersonsInDriver >2 
-                        ? `along with ${data.ivTotalPersonsInDriver - 1} other persons`:""} and met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInDriver} on ${data.accidentDateInDriver} at ${data.accidentTimeInDriver} hrs due to ${data.accidentMannerInDriver}. As a result IV damaged, ${
+                        ? `along with ${data.ivTotalPersonsInDriver - 1} other persons`:""} and met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInDriver} on ${data.accidentDateInDriver} at ${data.accidentTimeInDriver}hrs due to ${data.accidentMannerInDriver}.`: data.vehicleCondition==='parked' ? `at ${data.accidentPlaceInDriver} on ${data.accidentDateInDriver} and suddenly around ${data.accidentTimeInDriver}hrs ${data.accidentMannerInDriver}. At the time of accident ${data.ivTotalPersonsInDriver === 1
+                        ? `${data.driverGenderInDriver} was alone in the vehicle`
+                        : data.ivTotalPersonsInDriver === 2
+                        ? "${data.driverGenderInDriver} was present in the vehicle along with another person" 
+                        : data.ivTotalPersonsInDriver >2 
+                        ? `${data.driverGenderInDriver} was present in the vehicle along with ${data.ivTotalPersonsInDriver - 1} other persons`:"no one was in the vehicle"}.`: `${data.ivTotalPersonsInDriver === 1
+                        ? "alone"
+                        : data.ivTotalPersonsInDriver === 2
+                        ? "along with another person" 
+                        : data.ivTotalPersonsInDriver >2 
+                        ? `along with ${data.ivTotalPersonsInDriver - 1} other persons`:""} at ${data.accidentPlaceInDriver} on ${data.accidentDateInDriver} and suddenly around ${data.accidentTimeInDriver}hrs ${data.accidentMannerInDriver}.`} As a result IV damaged, ${
                         data.whoIsInjuredInDriver?.toLowerCase() === "injured"
                           ? `and ${data.injuredNameRelationInDriver} is injured.`
                           : data.whoIsInjuredInDriver?.toLowerCase() === "no one injured"
@@ -258,7 +270,7 @@ if (accidentDate && policyStartDate) {
                         : data.policeCaseInDriver === "Panchanama"
                         ? `Police issued panchanama only at ${data.policeStationNameInDriver}.} `
                         : ""
-                    } As per ${data.driverGenderInDriver==="he" ? "his" : data.driverGenderInDriver==="she"?"her":""} version, at the time of accident IV driven by ${data.carDrivenByInDriver === "himself" ? "himself" :  data.carDrivenByInDriver === "herself" ? "herself" : data.carDrivenByInDriver === "other-person" ? "other person" : " "} (${data.driverNameInDriverStatement}), ${
+                    } ${data.vehicleCondition==='moving'? `As per ${data.driverGenderInDriver==="he" ? "his" : data.driverGenderInDriver==="she"?"her":""} version, at the time of accident IV was driven` : data.vehicleCondition==='operating'? `As per ${data.driverGenderInDriver==="he" ? "his" : data.driverGenderInDriver==="she"?"her":""} version, at the time of accident IV was operated` : `Prior to the accident, IV had parked`} by ${data.carDrivenByInDriver === "himself" ? "himself only" :  data.carDrivenByInDriver === "herself" ? "herself only" : data.carDrivenByInDriver === "other-person" ? "other person" : " "} (${data.driverNameInDriverStatement}) and ${
                       data.driverGenderInDriver} is ${data.driverDLInDriver}. For the same ${data.driverGenderInDriver} provided ${data.driverGenderInDriver==="he" ? "his" : data.driverGenderInDriver==="she"?"her":""} statement ${
                       data.statementGivenInDriver === "yes"
                         ? "in written note"
@@ -305,7 +317,7 @@ if (accidentDate && policyStartDate) {
                               {`\u2022`}
                             </Text>
                             <Text style={styles.bulletContent}>
-                              {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the accident was occured while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}, met with accident at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredType} is not in IV at the time of loss.`}`} `}
+                              {`Based on claim intimation details, we ${data.insuredVerified === "no" ? `didn't verified the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'} due to ${data.insuredNotVerifiedReason}.` : `verified with the ${data.insuredType} about the ${data.accidentType === 'accident' ? 'accident' : 'fire accident'}. As per ${data.insuredGender === "she" ? "her" :"his"} version, the vehicle met with ${data.accidentType === 'accident' ? 'an accident' : 'a fire accident'} at ${data.accidentPlaceInInsuredStatement} on ${data.accidentDateInInsuredStatement} at ${data.accidentTimeInInsuredStatement} hrs ${data.vehicleCondition==='moving'? `while ${data.travellingPersonRelationInInsuredStatement} was travelling from ${data.travelFromInsuredStatement} to ${data.travelToInsuredStatement}`:`${data.vehicleCondition==='parked'?`when IV is in parked condition`:`${data.vehicleCondition===`operating`?`while ${data.travellingPersonRelationInInsuredStatement} was operating IV`:``}`}`}, due to ${data.accidentMannerInInsuredStatement} ${data.insuredInVehicle==="yes"?`.`:`and ${data.insuredType} is not in IV at the time of loss.`}`} `}
                           </Text>
                         </View>
                           {data.insuredVerified==="yes" && (
