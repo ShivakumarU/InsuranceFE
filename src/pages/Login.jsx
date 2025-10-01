@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import api from '../../lib/axios';
 
-const LOGIN_TIMEOUT = 25000; // 25 seconds in ms
+const LOGIN_TIMEOUT = 33000; // 25 seconds in ms
 
 const Login = () => {
   const [email, setEmail] = useState('');
