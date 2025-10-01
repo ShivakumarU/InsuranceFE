@@ -69,7 +69,7 @@ const NavBar = () => {
         </div>
         
         <div className="flex-none flex items-center gap-5 mr-4">
-            <button className='hover:text-blue-600 hover:font-bold' title="Logout" onClick={handleLogout}>
+            <button className='hover:text-red-600 hover:underline  hover:underline-offset-2' title="Logout" onClick={handleLogout}>
                 <span>Logout</span>
             </button>
             

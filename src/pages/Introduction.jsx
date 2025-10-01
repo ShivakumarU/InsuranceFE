@@ -26,12 +26,12 @@ const Introduction = () => {
 
   return (
   <div className="min-h-screen flex flex-col bg-white">  
-    <div className="flex items-center px-6 py-3 shadow-[1px_1px_10px_rgba(0,0,0,0.2)] shadow-slate-400  mb-44">
+    <div className="flex items-center px-6 py-3 shadow-[1px_1px_10px_rgba(0,0,0,0.2)] shadow-slate-400  mb-28">
       <img src={LogoImage} className="h-12 w-12" alt="LogoImage in navbar" />
       <img src={LogoName} className="h-12 w-45" alt="LogoName in navbar" />
     </div>
 
-    <div className="flex-1 flex items-start justify-center hero px-4 lg:px-24 mt-1">
+    <div className="flex-1 flex items-start justify-center hero px-4 lg:px-24">
       <div className="hero-content flex-col lg:flex-row gap-8  rounded-xl shadow-[1px_1px_15px_rgba(0,0,0,0.2)] shadow-slate-500">
         <div className="relative w-[450px] h-[399px] rounded-lg overflow-hidden ">
           {images.map((img, index) => (
