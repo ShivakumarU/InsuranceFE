@@ -14,10 +14,11 @@ const InsuredDetails = ({formData, setFormData}) =>  {
             onChange={(e) => setFormData({ ...formData, insuranceCompany: e.target.value })}
           >
             <option value="">Select Company</option>
-            <option value="TATA AIG General Insurance Co Ltd">TATA AIG general insurance Co Ltd</option>
-            <option value="Chola MS General Insurance Co Ltd">Chola MS general insurance Co Ltd</option>
-            <option value="Reliance General Insurance Co Ltd">Relaince general insurance Co Ltd</option>
+            <option value="TATA AIG General Insurance Co Ltd">TATA AIG General Insurance Co Ltd</option>
+            <option value="Chola MS General Insurance Co Ltd">Chola MS General Insurance Co Ltd</option>
+            <option value="IndusInd General Insurance Co Ltd">IndusInd General Insurance Co Ltd</option>
             <option value="Digit General Insurance Co Ltd">Digit General Insurance Co Ltd</option>
+            <option value="IFFCO-TOKIO General Insurance Co Ltd">IFFCO-TOKIO General Insurance Co Ltd</option>
           </select>
         </div>
 

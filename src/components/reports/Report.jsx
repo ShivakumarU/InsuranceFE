@@ -327,7 +327,7 @@ if (accidentDate && policyStartDate) {
                               </Text>
                               <Text style={styles.bulletContent}>
                               {`Based on ${data.insuredType} version, we tried to verify ${data.insuredGender==="she" ? "her":"his"} google timeline ${
-                                  data.insuredGoogleTimeline==="corelating" ? `and found ${data.insuredGender==="she" ? "her":"his"} timeline is co-relating with ${data.insuredGender==="she" ? "her":"his"} version. We ${data.insuredTimelinePhotosAttached==='yes'?`attached the timeline photos with this report.`:`have not attached the timeline photos with this report because ${data.insuredGender} refused to share them, citing privacy concerns.`} ${
+                                  data.insuredGoogleTimeline==="corelating" ? `and found that the timeline is co-relating with ${data.insuredGender==="she" ? "her":"his"} version${data.insuredInVehicle==="no" ? `, as ${data.insuredGender==="she" ? "she":"he"} stated ${data.insuredGender==="she" ? "she":"he"} was not in the vehicle` : ""} . We ${data.insuredTimelinePhotosAttached==='yes'?`attached the timeline photos with this report.`:`have not attached the timeline photos with this report because ${data.insuredGender} refused to share them, citing privacy concerns.`} ${
                                   data.insuredAccidentPhotosInMobile === 'not co-operated'
                                   ? `The insured did not cooperate when asked to check ${data.insuredGender === 'she' ? 'her' : 'his'} mobile gallery.`
                                   : `Then, we verified ${data.insuredGender === 'she' ? 'her' : 'his'} mobile gallery and ${
